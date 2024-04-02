@@ -7,7 +7,9 @@ import  historyTracking  from '@mercury-js/core/packages/historyTracking'
 import resolvers from "./Search.Resolvers";
 import typeDefs from './schema';
 import jwt from "jsonwebtoken";
-// import './models';
+import dotenv from "dotenv";
+dotenv.config();
+import './models';
 // import './profiles';
 // import './hooks';
 
@@ -59,10 +61,10 @@ const handler = startServerAndCreateNextHandler(server,
 
 export const mercuryInstance = mercury;
 
-export async function GET(request) {
+export async function GET(request:any) {
   return handler(request);
 }
 
-export async function POST(request) {
+export async function POST(request:any) {
   return handler(request);
 }
