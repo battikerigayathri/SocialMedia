@@ -40,7 +40,7 @@ const handler = startServerAndCreateNextHandler(server,
       let role = "ANONYMOUS"
       let id = "1";
       if (token) {
-        const verify = jwt.verify(token, process.env.JWT_SECRET);
+        const verify = jwt.verify(token, process.env.JWT_SECRET||"");
 
         if (!(verify.exp < Math.floor(Date.now() / 1000))) {
           role = verify.role;

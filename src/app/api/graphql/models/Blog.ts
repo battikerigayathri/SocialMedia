@@ -4,7 +4,11 @@ export const Blog = mercury.createModel("Blog", {
     type: "string",
   },
   author: {
-    type: "string",
+      type: "relationship",
+      ref:"User"
+    },
+    content: {
+      type:"string"
   },
     keywords: {
      type:"string"
