@@ -10,7 +10,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 import './models';
-// import './profiles';
+import './profiles';
 // import './hooks';
 
 mercury.connect(process.env.DB_URL!);
