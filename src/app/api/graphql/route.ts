@@ -3,47 +3,61 @@ import mercury from "@mercury-js/core";
 import { ApolloServer } from "@apollo/server";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { applyMiddleware } from "graphql-middleware";
-import { mergeTypeDefs, mergeResolvers } from "@graphql-tools/merge";
-import "./models";
-import CombinedResolvers from "./resolvers";
+import  historyTracking  from '@mercury-js/core/packages/historyTracking'
+import resolvers from "./Search.Resolvers";
 import typeDefs from './schema';
-import { serialize } from 'cookie';
-import cors from 'cors';
+import jwt from "jsonwebtoken";
+// import './models';
+// import './profiles';
+// import './hooks';
 
+mercury.connect(process.env.DB_URL!);
 
-mercury.connect(process.env.DB_URL);
+mercury.package([historyTracking()])
+mercury.addGraphqlSchema(
+  typeDefs,
+  resolvers
+);
 
-const resolvers = mergeResolvers(CombinedResolvers);
 const schema = applyMiddleware(
   makeExecutableSchema({
-    typeDefs: mergeTypeDefs([typeDefs, mercury.schema]),
-    resolvers: mergeResolvers([resolvers, mercury.resolvers]),
+    typeDefs: mercury.typeDefs,
+    resolvers: mercury.resolvers
   })
 );
 
-var corsOptions = {
-  origin: '*',
-  credentials: true
-};
-// cors(corsOptions)
 
 const server = new ApolloServer({
-  schema,
-  // cors: corsOptions
+  schema
 });
 
 const handler = startServerAndCreateNextHandler(server,
   {
-    context: async (req, res) => ({
-      ...req,
-      user: { role: "ANONYMOUS" },
-      // setCookie: (name, value, options) => {
-      //   const cookie = serialize(name, value, options);
-      //   res.setHeader('Set-Cookie', cookie);
-      // },
-    }),
+    context: async (req: any, res: any) => {
+      const token = req.headers.get("authorization") ? req.headers.get("authorization").split(' ')[1] : null;
+      let role = "ANONYMOUS"
+      let id = "1";
+      if (token) {
+        const verify = jwt.verify(token, process.env.JWT_SECRET);
+
+        if (!(verify.exp < Math.floor(Date.now() / 1000))) {
+          role = verify.role;
+          id = verify.id;
+        }
+      }
+      return {
+        ...req,
+        user: {
+          id,
+          profile: role,
+        }
+      }
+    }
 
   });
+
+
+export const mercuryInstance = mercury;
 
 export async function GET(request) {
   return handler(request);
