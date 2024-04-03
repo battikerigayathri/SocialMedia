@@ -2,6 +2,7 @@ import mercury from "@mercury-js/core";
 import { User } from "./models";
 import { GraphQLError } from "graphql";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export default {
     Query: {
@@ -22,8 +23,18 @@ export default {
                 if (!isPasswordValid) {
                     throw new Error('Invalid email or password');
                 }
+                 const token = jwt.sign(
+                   {
+                     id: user.id,
+                     email: user.email,
+                     role: user.role,
+                   },
+                   process.env.SECRET_TOKEN_KEY!,
+                   { expiresIn: "30d" }
+                 );
                 return {
-                    msg: "User successfully logged in"
+                    msg: "User successfully logged in",
+                    token:token
                 };
             } catch (error: any) {
                 throw new GraphQLError(error.message);

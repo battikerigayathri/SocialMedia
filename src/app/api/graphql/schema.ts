@@ -7,6 +7,7 @@ const typeDefs = `
   }
   type loginResponse{
 msg:String
+token:String
   }
 `
 export default typeDefs;
