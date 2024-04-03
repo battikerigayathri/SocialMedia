@@ -37,7 +37,7 @@ const handler = startServerAndCreateNextHandler(server,
   {
     context: async (req: any, res: any) => {
       const token = req.headers.get("authorization") ? req.headers.get("authorization").split(' ')[1] : null;
-      let role = "ANONYMOUS"
+      let role = "ADMIN"
       let id = "1";
       if (token) {
         const verify = jwt.verify(token, process.env.JWT_SECRET||"");

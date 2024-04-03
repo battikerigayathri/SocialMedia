@@ -1,15 +1,15 @@
 import mercury from "@mercury-js/core";
 export const Blog = mercury.createModel("Blog", {
-  title: {
+    title: {
     type: "string",
-  },
-  author: {
+    },
+    author: {
       type: "relationship",
       ref:"User"
     },
     content: {
       type:"string"
-  },
+    },
     keywords: {
      type:"string"
     },
