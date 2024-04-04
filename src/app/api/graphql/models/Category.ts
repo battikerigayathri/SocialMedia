@@ -15,7 +15,7 @@ export const Category = mercury.createModel("Category", {
   },
   subCategory: {
     type: "relationship",
-    ref: "SubCategory",
+    ref: "Category",
     many:true,
   },
 });

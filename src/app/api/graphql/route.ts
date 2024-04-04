@@ -6,9 +6,9 @@ import { applyMiddleware } from "graphql-middleware";
 import historyTracking from "@mercury-js/core/packages/historyTracking";
 import resolvers from "./Search.Resolvers";
 import typeDefs from "./schema";
+//@ts-ignore
 import jwt, { JwtPayload } from "jsonwebtoken";
-import dotenv from "dotenv";
-dotenv.config();
+
 import "./models";
 import "./profiles";
 // import './hooks';

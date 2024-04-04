@@ -1,12 +1,18 @@
 import mercury from "@mercury-js/core";
 export const Assets = mercury.createModel("Assets", {
-    assetName: {
+    name: {
         type: "string",
     },
-    assetType: {
-        type:"string",
+    type: {
+        type: "string",
     },
-    assetPath: {
-        type:"string"
+    path: {
+        type: "string"
+    },
+    altText: {
+        type: "string"
+    },
+    description: {
+        type: "string"
     }
 });
