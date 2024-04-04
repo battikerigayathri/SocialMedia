@@ -1,6 +1,6 @@
 import mercury from "@mercury-js/core";
 export const SubCategory = mercury.createModel("SubCategory", {
-  subCategoryName: {
+  name: {
     type: "string",
   },
 
