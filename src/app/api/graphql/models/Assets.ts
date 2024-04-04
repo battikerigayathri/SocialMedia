@@ -1,5 +1,5 @@
 import mercury from "@mercury-js/core";
-export const Assets = mercury.createModel("Assets", {
+export const Asset = mercury.createModel("Asset", {
     name: {
         type: "string",
     },
