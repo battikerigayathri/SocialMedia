@@ -11,11 +11,11 @@ export default {
         },
     },
     Mutation: {
-        login: async (root: any, { email, password }: { email: string, password: string }, ctx: any) => {
+        login: async (root: any, { userName, password }: { userName: string, password: string }, ctx: any) => {
             try {
                 
                 let UserSchema=mercury.db.User
-                const user = await UserSchema.mongoModel.findOne({ email });
+                const user = await UserSchema.mongoModel.findOne({ userName });
                 if (!user) {
                     throw new Error('Invalid email or password');
                 }
