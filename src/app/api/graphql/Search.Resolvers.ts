@@ -21,7 +21,7 @@ export default {
                 }
                 const isPasswordValid = await bcrypt.compare(password, user.password);
                 if (!isPasswordValid) {
-                    throw new Error('Invalid email or password');
+                    throw new Error('Invalid  password');
                 }
                  const token = jwt.sign(
                    {
