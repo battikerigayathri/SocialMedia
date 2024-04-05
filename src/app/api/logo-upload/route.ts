@@ -29,8 +29,8 @@ export async function POST(request: NextRequest) {
       throw new Error("PNG type images are only allowed");
     }
 
-    if (dimensions.height! > 100 || dimensions.width! > 200) {
-      throw new Error("Logo cannot be more than 100px height and 200px width");
+    if (dimensions.height! > 70 || dimensions.width! > 200) {
+      throw new Error("Logo cannot be more than 70px height and 200px width");
     }
 
     const command = new PutObjectCommand({
