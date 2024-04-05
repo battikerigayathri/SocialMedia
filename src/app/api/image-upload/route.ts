@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
       throw new Error("File not found");
     }
 
-    const fileKey = `${name.toString().split(" ")[0]}_${uuidv4()}.${file.name.split(".")[1]
+    const fileKey = `media/${name.toString().split(" ")[0]}_${uuidv4()}.${file.name.split(".")[1]
       }`;
 
     const command = new PutObjectCommand({

@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
 
     const command = new PutObjectCommand({
       Bucket: `${process.env.BUCKET_NAME}`,
-      Key: "logo.png",
+      Key: "webconfig/logo.png",
       Body: Buffer.from(await file.arrayBuffer()),
       ACL: "public-read"
     });
