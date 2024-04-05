@@ -3,7 +3,7 @@ const typeDefs = `
     hello(name: String): String,
   }
   type Mutation{
-    login(email:String,password:String):loginResponse
+    login(userName:String,password:String):loginResponse
   }
   type loginResponse{
 msg:String

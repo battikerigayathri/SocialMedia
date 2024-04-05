@@ -1,6 +1,6 @@
 import mercury from "@mercury-js/core";
 export const Category = mercury.createModel("Category", {
-  categoryName: {
+  name: {
     type: "string",
     require: true,
   },
@@ -15,7 +15,7 @@ export const Category = mercury.createModel("Category", {
   },
   subCategory: {
     type: "relationship",
-    ref: "SubCategory",
+    ref: "Category",
     many:true,
   },
 });
