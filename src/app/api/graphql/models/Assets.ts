@@ -1,12 +1,21 @@
 import mercury from "@mercury-js/core";
-export const Assets = mercury.createModel("Assets", {
-    assetName: {
-        type: "string",
-    },
-    assetType: {
-        type:"string",
-    },
-    assetPath: {
-        type:"string"
-    }
+export const Asset = mercury.createModel("Asset", {
+  name: {
+    type: "string",
+  },
+  type: {
+    type: "enum",
+    enumType: "string",
+    enum: ["MEDIA", "WEBCONFIG"],
+    default: "MEDIA",
+  },
+  path: {
+    type: "string",
+  },
+  altText: {
+    type: "string",
+  },
+  description: {
+    type: "string",
+  },
 });
