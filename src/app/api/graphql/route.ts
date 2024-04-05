@@ -14,9 +14,6 @@ import "./profiles";
 // import './hooks';
 
 
-console.log("================================================     ",typeof process.env.DB_URL, process.env.DB_URL, "================================================");
-
-
 mercury.connect(process.env.DB_URL!);
 
 mercury.package([historyTracking()]);
