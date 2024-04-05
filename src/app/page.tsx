@@ -1,12 +1,13 @@
-import Image from "next/image";
-import Login from "./container/login";
-import Forgotpassword from "./container/forgotpassword";
+import MainTemplete from "@/templete";
 
 export default function Home() {
   return (
-    <div>
-    {/* <Login/> */}
-    <Forgotpassword/>
+    <div className="flex flex-col ">
+<MainTemplete>
+  <h1>sdfgh</h1>
+</MainTemplete>
+
     </div>
+
   );
 }
