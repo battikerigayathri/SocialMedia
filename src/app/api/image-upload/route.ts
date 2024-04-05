@@ -1,16 +1,9 @@
-import mercury from "@mercury-js/core";
-import { writeFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
 import { MercuryInstance } from "../graphql/route";
 //@ts-ignore
 import { v4 as uuidv4 } from "uuid";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import multer from "multer";
-import multerS3 from "multer-s3";
-import dotenv from "dotenv";
-import { NextApiRequest, NextApiResponse } from "next";
-dotenv.config();
-// import AWS from "aws-sdk";
+
 
 const client = new S3Client({
   region: process.env.AWS_REGION_KEY,
@@ -27,27 +20,27 @@ export async function POST(request: NextRequest) {
     const name = data.get("name")!;
 
     if (!file) {
-      return NextResponse.json({ success: false });
+      throw new Error("File not found");
     }
+
+    const fileKey = `${name.toString().split(" ")[0]}_${uuidv4()}.${file.name.split(".")[1]
+      }`;
 
     const command = new PutObjectCommand({
       Bucket: process.env.BUCKET_NAME,
-      Key: `${name.toString().split(" ")[0]}_${uuidv4()}.${
-        file.name.split(".")[1]
-      }`,
+      Key: fileKey,
       Body: Buffer.from(await file.arrayBuffer()),
       ACL: "public-read",
     });
 
-    const res = await client.send(command);
-    console.log(res);
+    await client.send(command);
 
     const asset = await MercuryInstance.db.Asset.create(
       {
         name: data.get("name"),
         type: file.type,
         altText: data.get("altText"),
-        path: "gbhjnk",
+        path: `https://s3.ap-south-1.amazonaws.com/vithiblog.in/${fileKey}`,
         description: data.get("description"),
       },
       { profile: "ADMIN" }
