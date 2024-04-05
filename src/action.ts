@@ -7,7 +7,7 @@ export async function serverFetch(query: string, variables: any, options: any) {
       `https://03ac-2401-4900-1cb1-fc38-1043-d899-1c0-c667.ngrok-free.app/graphql`, //http://stg-api.ebikego.vithiit.com
       {
         method: 'POST',
-        headers: {
+        headers:{
           'content-type': 'application/json',
         //   Authorization: userData ? userData.token : undefined,
         },
