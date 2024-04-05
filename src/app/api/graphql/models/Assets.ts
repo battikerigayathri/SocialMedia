@@ -3,11 +3,14 @@ export const Asset = mercury.createModel("Asset", {
   name: {
     type: "string",
   },
-  type: {
+  mediaType: {
     type: "enum",
     enumType: "string",
     enum: ["MEDIA", "WEBCONFIG"],
     default: "MEDIA",
+  },
+  type: {
+    type: "string",
   },
   path: {
     type: "string",
