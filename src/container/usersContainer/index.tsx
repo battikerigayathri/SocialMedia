@@ -1,3 +1,5 @@
+"use client"
+import { useRouter } from 'next/navigation'
 import React from 'react'
 const data=[
     {
@@ -25,11 +27,12 @@ const data=[
     },
 ]
 function UsersContainer() {
+    const router=useRouter()
     return (
         <div className='flex flex-col w-[calc(100vw-260px)]' >
             <div className='flex flex-row justify-between p-3 rounded-md bg-gray-100 items-center'>
             <h4 className='text-center font-bold text-[20px]'>Users</h4>
-            <button className='bg-blue-950 text-white p-2 rounded-md'>Add</button>
+            <button className='bg-blue-950 text-white p-2 rounded-md' onClick={()=>router.push("/users/addUser")}>Add</button>
             </div>
             <div className="flex flex-col mt-8">
                 <div className="py-2 -my-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
