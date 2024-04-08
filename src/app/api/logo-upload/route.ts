@@ -22,14 +22,14 @@ export async function POST(request: NextRequest) {
     }
 
     const dimensions = sizeOff(Buffer.from(await file.arrayBuffer()));
-    console.log(dimensions);
+
     if (dimensions.type !== "png") {
       throw new Error("PNG type images are only allowed");
     }
 
-    // if (dimensions.height! > 80 || dimensions.width! > 300) {
-    //   throw new Error("Logo cannot be more than 80px height and 300px width");
-    // }
+    if (dimensions.height! > 80 || dimensions.width! > 300) {
+      throw new Error("Logo cannot be more than 80px height and 300px width");
+    }
 
     const command = new PutObjectCommand({
       Bucket: `${process.env.BUCKET_NAME}`,
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true });
   } catch (error: any) {
     console.log("eadsfg", error.message);
-    
-    return NextResponse.json({ error: error.message }, { status: 404 });
+
+    return NextResponse.json({ error: error.message }, { status: 400, statusText: error?.message });
   }
 }
