@@ -29,9 +29,9 @@ export async function POST(request: NextRequest) {
       throw new Error("PNG type images are only allowed");
     }
 
-    if (dimensions.height! > 80 || dimensions.width! > 300) {
-      throw new Error("Logo cannot be more than 80px height and 300px width");
-    }
+    // if (dimensions.height! > 80 || dimensions.width! > 300) {
+    //   throw new Error("Logo cannot be more than 80px height and 300px width");
+    // }
 
     const command = new PutObjectCommand({
       Bucket: `${process.env.BUCKET_NAME}`,
