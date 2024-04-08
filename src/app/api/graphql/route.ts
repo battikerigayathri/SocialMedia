@@ -13,6 +13,7 @@ import "./models";
 import "./profiles";
 // import './hooks';
 
+
 mercury.connect(process.env.DB_URL!);
 
 mercury.package([historyTracking()]);
@@ -31,7 +32,7 @@ const server = new ApolloServer({
 
 const handler = startServerAndCreateNextHandler(server, {
   context: async (req: any, res: any) => {
-    const token = req.headers.get("authorization")        
+    const token = req.headers.get("authorization")
       ? req.headers.get("authorization").split(" ")[1]
       : null;
     let role = "ADMIN";
@@ -58,7 +59,8 @@ const handler = startServerAndCreateNextHandler(server, {
   },
 });
 
-export const MercuryInstance = mercury;
+//@ts-ignore
+export const MercuryInstance = mercury;   
 
 export async function GET(request: any) {
   return handler(request);
