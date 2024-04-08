@@ -1,8 +1,11 @@
+import ViewImageDetailsContainer from '@/container/ViewImageDetailsContainer'
 import React from 'react'
 
 const page = ({ params }: { params: { assetId: string } }) => {
     return (
-        <div>{params.assetId}</div>
+        <div>
+            <ViewImageDetailsContainer />
+        </div>
     )
 }
 

@@ -17,6 +17,9 @@ export async function POST(request: NextRequest) {
   try {
     const data = await request.formData();
     const file: File | null = data.get("file") as unknown as File;
+
+    console.log(file);
+    
     const name = data.get("name")!;
 
     if (!file) {
@@ -25,6 +28,7 @@ export async function POST(request: NextRequest) {
 
     const fileKey = `media/${name.toString().split(" ")[0]}_${uuidv4()}.${file.name.split(".")[1]
       }`;
+      console.log(fileKey);
 
     const command = new PutObjectCommand({
       Bucket: `${process.env.BUCKET_NAME}`,
@@ -33,8 +37,9 @@ export async function POST(request: NextRequest) {
       ACL: "public-read",
     });
 
-    await client.send(command);
-
+    const response = await client.send(command);
+    console.log(response);
+    
     const asset = await MercuryInstance.db.Asset.create(
       {
         name: data.get("name"),
@@ -47,6 +52,6 @@ export async function POST(request: NextRequest) {
     );
     return NextResponse.json({ success: true, asset }, { status: 200 });
   } catch (error: any) {
-    return new NextResponse(error.message, { status: 400 });
+    return new NextResponse(error.message, { status: 400, statusText: error.message });
   }
 }
