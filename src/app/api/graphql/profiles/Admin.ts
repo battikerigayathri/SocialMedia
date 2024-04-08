@@ -28,7 +28,7 @@ const rules=[
     }
 },
 {
-    modelName:"Assets",
+    modelName:"Asset",
     access:{
         create:true,
         read:true,
