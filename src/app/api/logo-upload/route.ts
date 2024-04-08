@@ -17,8 +17,6 @@ export async function POST(request: NextRequest) {
   try {
     const data = await request.formData();
     const file: File | null = data.get("file") as unknown as File;
-    const name = data.get("name")!;
-
     if (!file) {
       throw new Error("File not found");
     }
@@ -43,6 +41,8 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error: any) {
-    return new NextResponse(error.message);
+    console.log("eadsfg", error.message);
+    
+    return NextResponse.json({ error: error.message }, { status: 404 });
   }
 }
