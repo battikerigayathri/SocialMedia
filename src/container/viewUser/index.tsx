@@ -85,7 +85,11 @@ mutation DeleteUser($deleteUserId: ID!) {
             <div className='flex flex-row justify-between p-3 rounded-md bg-gray-100 items-center'>
                 <h4 className='text-center font-bold text-[20px]'>user</h4>
             </div>
-
+            <div className="shadow-md rounded-b-lg ">
+                <div className='bg-blue-950 h-10 rounded-t-lg flex flex-col justify-center font-medium p-2 text-white'>
+                    {/* {updateSettings?"Change your settings here":"Your settings"} */}
+                </div>
+                <div className='flex flex-row justify-center items-center align-middle p-3'>
             <Formik
                 initialValues={{
                     firstName: getUserResponse?.data?.getUser?.firstName,
@@ -139,7 +143,7 @@ mutation DeleteUser($deleteUserId: ID!) {
                     <Form>
                         <div className='flex flex-col item-center gap-5 justify-center '>
 
-                            <div className="flex flex-row gap-y-5 gap-x-5 flex-wrap w-[calc(100vw-60%)] justify-center">
+                            <div className="flex flex-row gap-y-5 gap-x-5 flex-wrap  justify-center">
                                 <Field name="firstName">
                                     {({ field, form: { touched, errors }, meta }: any) => (
                                         <div className='flex flex-row gap-2 items-center'>
@@ -253,7 +257,7 @@ mutation DeleteUser($deleteUserId: ID!) {
                                 </Field>
 
                             </div>
-                            <div className='flex flex-row gap-y-5 gap-x-5 flex-wrap w-[calc(100vw-60%)] justify-center'>
+                            <div className='flex flex-row gap-y-5 gap-x-5 flex-wrap justify-center'>
                                 {currentPath.get("edit") == "true" ?
                                     <button type="submit" className=" bg-blue-950 rounded-md p-2 text-white font-bold text-sm h-10 w-[100px]"> {loading ? (
                                         <div
@@ -289,6 +293,8 @@ mutation DeleteUser($deleteUserId: ID!) {
                     </Form>
                 )}
             </Formik>
+                </div>
+                </div>
         </div>
 
     )

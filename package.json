@@ -15,6 +15,7 @@
     "@aws-sdk/client-s3": "^3.549.0",
     "@graphql-tools/schema": "^10.0.3",
     "@mercury-js/core": "^2.0.0-beta.21",
+    "axios": "^1.6.8",
     "dotenv": "^16.4.5",
     "formik": "^2.4.5",
     "graphql": "^16.8.1",
