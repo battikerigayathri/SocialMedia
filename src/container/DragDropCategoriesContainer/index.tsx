@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useRef, useState } from 'react'
-import * as ReactDOM from "react-dom";
+import _ from 'lodash'
 import {
     TreeView, TreeViewDragClue, processTreeViewItems,
     moveTreeViewItem, TreeViewDragAnalyzer, TreeViewItemDragOverEvent, TreeViewItemDragEndEvent, TreeViewItemClickEvent, TreeViewCheckChangeEvent
@@ -14,14 +14,16 @@ const DragDropCategoriesContainer = () => {
     const dragOverCnt = useRef<number>(0);
     const isDragDrop = useRef<boolean>(false);
     const [tree, setTree] = useState<TreeViewDataItem[]>(treeData);
+    const [initialTree, setInitialTree] = useState<TreeViewDataItem[]>(treeData);
     const [expand, setExpand] = useState({ ids: [], idField: 'text' });
     const [selected, setSelected] = useState({ ids: [], idField: 'text' });
     const [getCategories, { data, loading, error }] = useLazyQuery(serverFetch);
+    const [updateCategories, updateCategoriesResponse] = useLazyQuery(serverFetch);
 
     useEffect(() => {
         getCategories(
-            `query ListCategorys {
-                listCategorys {
+            `query ListCategorys($where: whereCategoryInput) {
+                listCategorys(where: $where) {
                   docs {
                     id
                     name
@@ -34,6 +36,13 @@ const DragDropCategoriesContainer = () => {
                         id
                         name
                         status
+                        subCategory {
+                            id
+                            name
+                            status
+                            createdOn
+                            updatedOn
+                          }
                         createdOn
                         updatedOn
                       }
@@ -45,7 +54,13 @@ const DragDropCategoriesContainer = () => {
                   }
                 }
               }`,
-            {},
+            {
+                "where": {
+                    "parent": {
+                        "is": null
+                    }
+                }
+            },
             {
                 cache: "no-store"
             }
@@ -56,15 +71,68 @@ const DragDropCategoriesContainer = () => {
     useEffect(() => {
         if (data && data?.listCategorys?.docs) {
             const category: TreeViewDataItem[] = getTreeData(data?.listCategorys?.docs);
-            console.log(category);
             setTree(category)
+            setInitialTree(category);
         }
     }, [data, loading, error])
 
-    useEffect(()=>{
-        console.log(tree);
-        
+    useEffect(() => {
+
+
     }, [tree])
+
+
+    function handleSaveTree() {
+        const diffCategoryObj = _.omitBy(tree, (value: any, key: any) => {
+            return _.isEqual(value, initialTree[key]);
+        })
+        const updateInput = getUpdateArray(Object.keys(diffCategoryObj).map((key: any) => tree[key]));
+
+        updateCategories(
+            `mutation UpdateCategorys($input: [updateCategoryInput!]!) {
+                updateCategorys(input: $input) {
+                  id
+                }
+              }`,
+            {
+                "input": updateInput
+            },
+            {
+                cache: "no-store"
+            }
+        )
+    }
+
+    useEffect(() => {
+        if (updateCategoriesResponse.data) {
+            console.log(updateCategoriesResponse.data);
+
+        }
+    }, [updateCategoriesResponse.data, updateCategoriesResponse.error, updateCategoriesResponse.loading])
+
+
+    function getUpdateArray(categories: any): any[] {
+        const updateArray: any[] = [];
+
+        function findParent(category: any, parentId: any) {
+            updateArray.push({
+                id: category.id,
+                parent: parentId
+            });
+
+            if (category.items) {
+                category.items.forEach((item: any) => {
+                    findParent(item, category.id);
+                });
+            }
+        }
+
+        categories.forEach((category: any) => {
+            findParent(category, undefined);
+        });
+
+        return updateArray;
+    }
     function getTreeData(categories: any[]): TreeViewDataItem[] {
 
         return categories?.map((cat: any): any => {
@@ -77,23 +145,6 @@ const DragDropCategoriesContainer = () => {
             return treeData;
         })
     }
-
-    // function getTreeData(categories: any[], seenIds: Set<string> = new Set()): TreeViewDataItem[] {
-    //     return categories.reduce((acc: TreeViewDataItem[], cat: any) => {
-    //         if (!seenIds.has(cat.id)) {
-    //             seenIds.add(cat.id);
-    //             const treeData: TreeViewDataItem = {
-    //                 text: cat.name, 
-    //                 id: cat.id,
-    //                 expanded: true,
-    //             };
-    //             treeData.items = cat.subCategory?.length > 0 ? getTreeData(cat.subCategory, seenIds) : undefined;
-    //             acc.push(treeData);
-    //         }
-    //         return acc;
-    //     }, []);
-    // }
-
 
     const getClueClassName = (event: any) => {
         const eventAnalyzer = new TreeViewDragAnalyzer(event).init();
@@ -128,6 +179,10 @@ const DragDropCategoriesContainer = () => {
         dragOverCnt.current = 0;
         dragClue.current.hide();
 
+        console.log(event.target);
+
+
+
         const eventAnalyzer = new TreeViewDragAnalyzer(event).init();
 
         if (eventAnalyzer.isDropAllowed) {
@@ -157,13 +212,11 @@ const DragDropCategoriesContainer = () => {
         setExpand({ ids, idField: 'text' });
     }
 
-    function handleSaveTree() {
-        
-    }
 
     return (
         <div>
             <TreeView
+                size="large"
                 draggable={true} onItemDragOver={onItemDragOver} onItemDragEnd={onItemDragEnd}
                 data={processTreeViewItems(
                     tree, { expand: expand, select: selected }
