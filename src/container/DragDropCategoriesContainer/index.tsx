@@ -8,6 +8,7 @@ import {
 import '@progress/kendo-theme-default/dist/all.css';
 import { useLazyQuery } from '@/hook';
 import { serverFetch } from '@/action';
+import { useRouter } from 'next/navigation';
 
 const DragDropCategoriesContainer = () => {
     const dragClue = useRef<any>();
@@ -19,6 +20,7 @@ const DragDropCategoriesContainer = () => {
     const [selected, setSelected] = useState({ ids: [], idField: 'text' });
     const [getCategories, { data, loading, error }] = useLazyQuery(serverFetch);
     const [updateCategories, updateCategoriesResponse] = useLazyQuery(serverFetch);
+    const router = useRouter();
 
     useEffect(() => {
         getCategories(
@@ -107,6 +109,8 @@ const DragDropCategoriesContainer = () => {
         if (updateCategoriesResponse.data) {
             console.log(updateCategoriesResponse.data);
 
+            router.replace('/category');
+
         }
     }, [updateCategoriesResponse.data, updateCategoriesResponse.error, updateCategoriesResponse.loading])
 
@@ -178,10 +182,6 @@ const DragDropCategoriesContainer = () => {
         isDragDrop.current = dragOverCnt.current > 0;
         dragOverCnt.current = 0;
         dragClue.current.hide();
-
-        console.log(event.target);
-
-
 
         const eventAnalyzer = new TreeViewDragAnalyzer(event).init();
 
