@@ -4,6 +4,8 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { useLazyQuery } from '@/hook';
 import { serverFetch } from "@/action";
+import { Router } from "next/router";
+import { useRouter } from "next/navigation";
 
 const validationSchema = yup.object().shape({
   catname: yup.string().required("catname is required"),
@@ -13,6 +15,7 @@ const validationSchema = yup.object().shape({
 });
 
 const CreateCategory = () => {
+  const router = useRouter();
     const [Categoryfunction, { data ,error,loading }] = useLazyQuery(serverFetch);
   const formik = useFormik({
     initialValues: {
@@ -51,7 +54,7 @@ const CreateCategory = () => {
   useEffect(()=>{
     if(data)
       {
-        console.log('catdata',data)
+        router.push('/category');
       }
     console.log('myerror',error)
   },[data, error])

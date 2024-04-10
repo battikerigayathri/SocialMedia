@@ -116,7 +116,7 @@ function CategoryContainer() {
                       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                         <span
                           className={`inline-flex px-2 text-xs font-semibold leading-5 ${
-                            item?.status === "active"
+                            item?.status === "Active"
                               ? "text-green-800 bg-green-100"
                               : "text-orange-800 bg-orange-100"
                           } rounded-full`}
