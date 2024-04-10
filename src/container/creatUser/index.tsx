@@ -10,12 +10,19 @@ import { useRouter } from 'next/navigation';
 function CreatUser() {
     const [loading, setLoading] = useState(false)
     const [craeteUserfun, craeteUserResponse] = useLazyQuery(serverFetch)
+    const [password, setPassword] = useState<string>('');
+
     const router = useRouter()
     const validationSchema = Yup.object().shape({
         firstName: Yup.string().required("enter first name"),
         lastName: Yup.string().required("enter last name"),
         userName: Yup.string().required("enter user name"),
-        password: Yup.string().required("enter password"),
+        password: Yup.string()
+        .required('enter password')
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+          'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
+        ),
         role: Yup.string().required("Please select role"),
         status: Yup.string().required("Please select status"),
         email: Yup.string()
@@ -29,6 +36,46 @@ function CreatUser() {
             router.push("/users")
         }
     }, [craeteUserResponse])
+
+    const generatePassword = (): string => {
+        const specialChars = '@$%&*';
+        const numbers = '0123456789';
+        const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
+      
+        const getRandomChar = (charSet: string): string => {
+          const randomIndex = Math.floor(Math.random() * charSet.length);
+          return charSet[randomIndex];
+        };
+      
+        let password = '';
+      
+        // Ensure at least one of each type of character
+        password += getRandomChar(specialChars);
+        password += getRandomChar(numbers);
+        password += getRandomChar(uppercaseChars);
+        password += getRandomChar(lowercaseChars);
+      
+        // Generate remaining characters
+        const allChars = specialChars + numbers + uppercaseChars + lowercaseChars;
+        const passwordLength = 10; // Change the length as needed
+        for (let i = 0; i < passwordLength - 4; i++) {
+          password += getRandomChar(allChars);
+        }
+      
+        // Shuffle the password
+        password = password.split('').sort(() => Math.random() - 0.5).join('');
+      
+        return password;
+      };
+
+  const handleGeneratePassword = () => {
+    const newPassword = generatePassword();
+    setPassword(newPassword);
+  };
+  useEffect(()=>{
+    handleGeneratePassword()
+  },[])
     return (
         <div className='flex flex-col w-[calc(100vw-260px)] gap-5'>
             <div className='flex flex-row justify-between p-3 rounded-md bg-gray-100 items-center'>
@@ -47,7 +94,7 @@ function CreatUser() {
                             userName: '',
                             role: 'USER',
                             status: '',
-                            password: ''
+                            password: password
 
                         }}
                         validationSchema={validationSchema}
@@ -147,14 +194,18 @@ function CreatUser() {
                                             </Field>
                                             <Field name="password">
                                                 {({ field, form: { touched, errors }, meta }: any) => (
+                                                    <>
                                                     <input {...field} type="text" placeholder="Password*" className="border-2 bg-gray-50 p-2 rounded" style={{
                                                         border: `${meta.touched && meta.error
                                                             ? "2px solid red"
                                                             : "1px solid gray"
                                                             }`,
-                                                    }} />
+                                                    }} onChange={(e)=>{e.preventDefault(),setPassword(e.target.value)}}/>
 
+                                                                                                    {/* <div>{meta.error}</div> */}
+                                                    </>
                                                 )}
+
                                             </Field>
                                             <Field name="role">
                                                 {({ field, form: { touched, errors }, meta }: any) => (
