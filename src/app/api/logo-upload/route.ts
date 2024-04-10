@@ -41,7 +41,6 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error: any) {
-    console.log("eadsfg", error.message);
 
     return NextResponse.json({ error: error.message }, { status: 400, statusText: error?.message });
   }
