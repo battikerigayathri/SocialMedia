@@ -5,17 +5,24 @@ export const Category = mercury.createModel("Category", {
     require: true,
   },
   status: {
-      type: "enum",
-      enumType: "string",
-      enum: [
-          "ACTIVE",
-          "IN_ACTIVE"
-      ],
-      default:"IN_ACTIVE"
+    type: "enum",
+    enumType: "string",
+    enum: [
+      "ACTIVE",
+      "IN_ACTIVE"
+    ],
+    default: "IN_ACTIVE"
   },
   subCategory: {
+    type: "virtual",
+    ref: "Category",
+    localField: "_id",
+    foreignField: "parent",
+    many: false,
+  },
+  parent: {
     type: "relationship",
     ref: "Category",
-    many:true,
-  },
+    required: false
+  }
 });

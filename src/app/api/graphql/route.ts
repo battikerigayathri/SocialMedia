@@ -1,3 +1,4 @@
+//@ts-ignore
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import mercury from "@mercury-js/core";
 import { ApolloServer } from "@apollo/server";
@@ -6,7 +7,6 @@ import { applyMiddleware } from "graphql-middleware";
 import historyTracking from "@mercury-js/core/packages/historyTracking";
 import resolvers from "./Search.Resolvers";
 import typeDefs from "./schema";
-//@ts-ignore
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 import "./models";
@@ -60,7 +60,7 @@ const handler = startServerAndCreateNextHandler(server, {
 });
 
 //@ts-ignore
-export const MercuryInstance = mercury;   
+export const MercuryInstance = mercury;
 
 export async function GET(request: any) {
   return handler(request);
