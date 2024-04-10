@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { Field, Form, Formik, FormikProps } from "formik";
 import { useLazyQuery } from '@/hook';
 import { serverFetch } from '@/action';
-import { ClipLoader } from 'react-spinners';
+import { BeatLoader, ClipLoader } from 'react-spinners';
 import Link from 'next/link';
 function ViewUser() {
     const [loading, setLoading] = useState(false)
@@ -77,18 +77,19 @@ mutation DeleteUser($deleteUserId: ID!) {
     cache: 'no-store',
 })
     }
-    if (getUserResponse?.loading) {
-        return <h3>Loading...</h3>
-    }
+ 
     return (
         <div className='flex flex-col w-[calc(100vw-260px)] gap-5'>
-            <div className='flex flex-row justify-between p-3 rounded-md bg-gray-100 items-center'>
+            {/* <div className='flex flex-row justify-between p-3 rounded-md bg-gray-100 items-center'>
                 <h4 className='text-center font-bold text-[20px]'>user</h4>
-            </div>
+            </div> */}
             <div className="shadow-md rounded-b-lg ">
-                <div className='bg-blue-950 h-10 rounded-t-lg flex flex-col justify-center font-medium p-2 text-white'>
+                <div className='bg-black h-10 rounded-t-lg flex flex-col justify-center font-medium p-2 text-white'>
+                <h4 className=' font-medium text-[14px]'>User</h4>
+
                     {/* {updateSettings?"Change your settings here":"Your settings"} */}
                 </div>
+                {getUserResponse?.loading ?<div className='flex flex-row justify-center items-center'> <BeatLoader color="gray" size={20} /></div>:
                 <div className='flex flex-row justify-center items-center align-middle p-3'>
             <Formik
                 initialValues={{
@@ -293,7 +294,7 @@ mutation DeleteUser($deleteUserId: ID!) {
                     </Form>
                 )}
             </Formik>
-                </div>
+                </div>}
                 </div>
         </div>
 

@@ -142,7 +142,7 @@ function SettingsContainer() {
             </div>
 
             <div className="shadow-md rounded-b-lg ">
-                <div className='bg-blue-950 h-10 rounded-t-lg flex flex-col justify-center font-medium p-2 text-white'>
+                <div className='bg-black h-10 rounded-t-lg flex flex-col justify-center font-medium p-2 text-white'>
                     {updateSettings?"Change your settings here":"Your settings"}
                 </div>
                 {updateSettings?<div> <div className='flex flex-row justify-around items-center p-3'>  

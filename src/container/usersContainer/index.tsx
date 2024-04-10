@@ -3,31 +3,8 @@ import { serverFetch } from '@/action'
 import { useLazyQuery } from '@/hook'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-const data = [
-    {
-        userName: "Avinash",
-        email: "Saiavinashkodurikoduri@gamil.com",
-        status: "active",
-        role: "user",
-        id: "1"
-    },
-    {
-        userName: "Thrinetra",
-        email: "thri@gamil.com",
-        status: "active",
-        role: "user",
-        id: "2"
+import { BeatLoader } from 'react-spinners'
 
-    },
-    {
-        userName: "Praveen",
-        email: "praveen@gamil.com",
-        status: "active",
-        role: "user",
-        id: "3"
-
-    },
-]
 type userData = {
     id: string,
     firstName: string,
@@ -72,17 +49,15 @@ function UsersContainer() {
         console.log(usersData, "usersData")
     }, [usersData])
     const router = useRouter()
-    if (UserResponse?.loading) {
-        return (
-            <h5>Loading...</h5>
-        )
-    }
+
     return (
         <div className='flex flex-col w-[calc(100vw-260px)]' >
             <div className='flex flex-row justify-between p-3 rounded-md bg-gray-100 items-center'>
                 <h4 className='text-center font-bold text-[20px]'>Users</h4>
                 <button className='bg-blue-950 text-white p-2 rounded-md' onClick={() => router.push("/users/addUser")}>Add</button>
             </div>
+            {UserResponse?.loading? <div className='flex flex-row justify-center items-center'> <BeatLoader color="gray" size={20} /></div>:
+
             <div className="flex flex-col mt-8 h-[calc(100vh-180px)]" style={{ overflowY: "auto", overflowX: "hidden" }}>
                 <div className="py-2 -my-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
                     <div
@@ -158,7 +133,7 @@ function UsersContainer() {
                         </table>
                     </div>
                 </div>
-            </div>
+            </div>}
         </div>
     )
 }
