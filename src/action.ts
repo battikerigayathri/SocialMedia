@@ -6,7 +6,7 @@ export async function serverFetch(query: string, variables: any, options: any) {
       `/api/graphql`,
       {
         method: 'POST',
-        headers: {
+        headers:{
           'content-type': 'application/json',
           //   Authorization: userData ? userData.token : undefined,
         },

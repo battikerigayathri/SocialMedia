@@ -28,7 +28,6 @@ const Forgotpassword=()=>{
     <div className="bg-white shadow w-full rounded-lg divide-y divide-gray-200">
     <form onSubmit={formik.handleSubmit}>
       <div className="px-5 py-7">
-       
         <label className="font-semibold text-sm text-gray-600  block">Email</label>
         
         <input type="email" id="email" name="email" onChange={formik.handleChange} value={formik.values.email} className="border rounded-lg px-3 py-2 mt-1 mb-[1px] text-sm w-full" />

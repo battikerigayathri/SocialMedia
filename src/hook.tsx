@@ -8,8 +8,7 @@ const useLazyQuery = (promise: any): any[] => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState<any>(null);
-
-  const execute = (...args: any) => {
+ const execute = (...args: any) => {
     setLoading(true);
     setError(null);
     promise(...args)
@@ -17,8 +16,7 @@ const useLazyQuery = (promise: any): any[] => {
         if (data.error) {
           throw data.error;
         }
-
-        if (data == null) {
+       if (data == null) {
           setData(true);
         } else {
           setData(data);
