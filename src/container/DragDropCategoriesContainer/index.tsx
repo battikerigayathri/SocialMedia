@@ -79,16 +79,39 @@ const DragDropCategoriesContainer = () => {
     }, [data, loading, error])
 
     useEffect(() => {
+        console.log(tree);
 
 
     }, [tree])
 
+    function getMaxDepthOfTree(): number {
+        let maxDepth = 0;
+
+        function traverse(node: TreeViewDataItem, depth: number) {
+            if (node.items && node.items.length > 0) {
+                node.items.forEach(child => traverse(child, depth + 1))
+            }
+            maxDepth = Math.max(maxDepth, depth);
+        }
+
+        tree.forEach(child => traverse(child, 1));
+
+        return maxDepth;
+    }
 
     function handleSaveTree() {
+
+        const maxDepth: number = getMaxDepthOfTree();
+        if (maxDepth > 4) {
+            alert("Maximum 4 levels of category tree is only allowed");
+            return;
+        }
         const diffCategoryObj = _.omitBy(tree, (value: any, key: any) => {
             return _.isEqual(value, initialTree[key]);
         })
         const updateInput = getUpdateArray(Object.keys(diffCategoryObj).map((key: any) => tree[key]));
+
+
 
         updateCategories(
             `mutation UpdateCategorys($input: [updateCategoryInput!]!) {
@@ -107,8 +130,6 @@ const DragDropCategoriesContainer = () => {
 
     useEffect(() => {
         if (updateCategoriesResponse.data) {
-            console.log(updateCategoriesResponse.data);
-
             router.replace('/category');
 
         }
@@ -214,16 +235,21 @@ const DragDropCategoriesContainer = () => {
 
 
     return (
-        <div>
-            <TreeView
-                size="large"
-                draggable={true} onItemDragOver={onItemDragOver} onItemDragEnd={onItemDragEnd}
-                data={processTreeViewItems(
-                    tree, { expand: expand, select: selected }
-                )}
-                expandIcons={true} onExpandChange={onExpandChange} onItemClick={onItemClick}
-            />
-            <TreeViewDragClue ref={dragClue} />
+        <div className='flex w-full justify-center items-center flex-col gap-4'>
+            <h1 className='text-xl font-bold'>
+                Category Tree Builder
+            </h1>
+            <div className='px-10 py-6 border-2 border-gray-900'>
+                <TreeView
+                    size="large"
+                    draggable={true} onItemDragOver={onItemDragOver} onItemDragEnd={onItemDragEnd}
+                    data={processTreeViewItems(
+                        tree, { expand: expand, select: selected }
+                    )}
+                    expandIcons={true} onExpandChange={onExpandChange} onItemClick={onItemClick}
+                />
+                <TreeViewDragClue ref={dragClue} />
+            </div>
 
             <div className='mt-4'>
                 <button className='bg-blue-800 text-white px-6 py-1.5 rounded-lg' onClick={handleSaveTree}>Save</button>
