@@ -37,7 +37,7 @@ function SettingsContainer() {
     `,{
             "where": {
                 "id": {
-                    "is": "66139fe4c1d3ab09f12ee576"
+                    "is": "660fd430ffa63be51ea664fb"
                 }
             }
         },{
@@ -62,7 +62,7 @@ function SettingsContainer() {
             }
           }`, {
             "input": {
-                "id": "66139fe4c1d3ab09f12ee576",
+                "id": "660fd430ffa63be51ea664fb",
                 "title": title
             }
         }, {
