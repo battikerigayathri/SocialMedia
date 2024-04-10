@@ -10,7 +10,7 @@ function Header() {
         <div className="bg-gray-200">
             <div className=" w-[100%] px-5 bg-gray-200  text-black flex flex-row justify-between items-center py-2">
                 {/* <h4>Logo</h4> */}
-                <Image src="https://s3.ap-south-1.amazonaws.com/vithiblog.in/webconfig/logo.png" alt="logo" height={100} width={200} className="w-auto" />
+                <Image src="https://s3.ap-south-1.amazonaws.com/vithiblog.in/webconfig/logo.png" unoptimized alt="logo" height={50} width={200} className="w-auto h-[24px]" />
                 <div className="flex flex-row gap-2">
                     <FaCircleUser size={20} />
                     <div className="bg-white rounded-sm" onClick={() => setdropdown(!dropdown)}>
