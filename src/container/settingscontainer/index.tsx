@@ -5,14 +5,16 @@ import axios from 'axios'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-
+import { v4 as uuidv4 } from 'uuid';
+import toast, { Toaster } from 'react-hot-toast';
 function SettingsContainer() {
-    // const router = useRouter()
+    const router = useRouter()
     const [title, setTitle] = useState("")
     const [logo, setLogo] = useState<any>()
     const [settingsfun, settingsResponse] = useLazyQuery(serverFetch)
     const [updateSettingsfun, updateSettingsResponse] = useLazyQuery(serverFetch)
     const [updateSettings, setUpdateSettings] = useState(false)
+    const [imgsrc,setimgsrc]=useState('')
 
     useEffect(() => {
         settingsfun(`
@@ -32,19 +34,20 @@ function SettingsContainer() {
           title
         }
       }
-    `, {
+    `,{
             "where": {
                 "id": {
                     "is": "66139fe4c1d3ab09f12ee576"
                 }
             }
-        }, {
+        },{
             cache: 'no-store',
         })
     }, [])
     useEffect(() => {
         if (settingsResponse?.data) {
-            console.log(settingsResponse?.data)
+            console.log(settingsResponse?.data,"data")
+            setimgsrc(settingsResponse?.data?.getSetting?.logo?.path)
         }
     }, [settingsResponse])
 
@@ -68,16 +71,16 @@ function SettingsContainer() {
     }
     useEffect(() => {
         if (updateSettingsResponse?.data) {
-            // router.refresh()
+            router.refresh()
         }
 
     }, [updateSettingsResponse])
-    const updateFile = async (e?:any) => {
-        e.preventDefault()
-        // if (logo && logo?.name) {
+    const updateFile = async () => {
+        //         if (logo && logo?.name) {
         //     const extension = logo.name.split('.').pop();
         //     if (extension !== 'png') {
         //         alert('Only PNG files are allowed.');
+        //         return
         //     }
         //     else {
         //         const reader = new FileReader();
@@ -89,6 +92,7 @@ function SettingsContainer() {
         //                 console.log(width, height, "asdfghhg")
         //                 if (width > 300 || height > 80) {
         //                     alert('Image dimensions should be less than 300x80.');
+        //                     return
         //                 }
         //             };
         //             //@ts-ignore
@@ -102,21 +106,31 @@ function SettingsContainer() {
             formData.append('file', logo);
             console.log(formData, "sdcfvgbhjn")
 
-            const response = await axios({
-                method: "post",
-                url: "api/logo-upload",
-                data: formData,
-                headers: { "Content-Type": "multipart/form-data" },
-            })
-            .then(response => {
-                // Handle success
-                console.log('File uploaded successfully', response.data);
-              })
-              .catch(error => {
-                // Handle error
-                console.error('Error uploading file:', error);
-              });        } catch (e) {
-            console.log(e)
+            // const response = await axios.post("api/logo-upload",formData,{
+            //     headers: { "Content-Type": "multipart/form-data" },
+            // })
+            const response = await fetch('/api/logo-upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            console.log(response);
+            console.log(response.statusText)
+            if(response.statusText==="OK") {
+            toast.success("Logo updated")
+
+             router.refresh()
+
+            }
+            if(response.status === 400) {
+                throw new Error(response.statusText);
+            }
+            const responseData = await response.json();
+            console.log(responseData)
+            console.log(response,"resp")
+                   } catch (e:any) {
+            console.log(e?.message)
+            toast.error(e?.message)
         }
     }
 
@@ -132,7 +146,7 @@ function SettingsContainer() {
                     {updateSettings?"Change your settings here":"Your settings"}
                 </div>
                 {updateSettings?<div> <div className='flex flex-row justify-around items-center p-3'>  
-                 <form className="mt-8 space-y-3" action="#" method="POST">
+                 <form className="mt-8 space-y-3" >
                 <div className="grid grid-cols-1 space-y-2">
                     <label className="text-sm font-bold text-gray-500 tracking-wide ">Title</label>
                     <input className="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 w-[250px]" type="text" placeholder="Title" onChange={(e) => setTitle(e.target.value)} />
@@ -141,7 +155,7 @@ function SettingsContainer() {
                     Update
                 </button>
             </form>
-            <form className="mt-8 space-y-3" action="#" method="POST">
+            <div className="mt-8 space-y-3" >
 
                 <div className="grid grid-cols-1 space-y-2">
                     <label className="text-sm font-bold text-gray-500 ">Attach Document</label>
@@ -164,12 +178,12 @@ function SettingsContainer() {
                     <span>File type: png</span>
                 </p>
                 <div>
-                    <button type="submit" className=" bg-blue-950 rounded-md p-2 text-white font-bold text-sm h-10  text-center" onClick={() => updateFile()}>
+                    <button className=" bg-blue-950 rounded-md p-2 text-white font-bold text-sm h-10  text-center" onClick={() => updateFile()}>
                         Upload
                     </button>
                 </div>
                 
-            </form></div> <div className='flex flex-row justify-end p-5'>
+            </div></div> <div className='flex flex-row justify-end p-5'>
                 <button className=" bg-blue-950 rounded-md p-2 text-white font-bold text-sm h-10 w-36  text-center" onClick={() => setUpdateSettings(false)}>
                         Close
                     </button>
@@ -180,7 +194,7 @@ function SettingsContainer() {
                         ?.title}</h1>
                     <div className='flex flex-row justify-around items-center' >
                         <h1 className=' font-bold'>Logo: </h1>
-                        <img src={settingsResponse?.data?.getSetting?.logo?.path} alt='' width={300} height={100} />
+                        <img src={`${imgsrc}?id=${uuidv4()}`}  alt='' width={300} height={100}/>
                     </div>
                 </div>
                 <div className='flex flex-row justify-end p-5'>
@@ -190,7 +204,7 @@ function SettingsContainer() {
                     </div>
                 </>}
             </div>
- 
+            <Toaster />
         </div>
     )
 }
