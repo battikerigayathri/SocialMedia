@@ -37,8 +37,8 @@ export async function POST(request: NextRequest) {
       ACL: "public-read",
     });
 
-    const response = await client.send(command);
-    console.log(response);
+    await client.send(command);
+
     
     const asset = await MercuryInstance.db.Asset.create(
       {

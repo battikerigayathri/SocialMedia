@@ -1,9 +1,11 @@
 "use client"
 import { useFormik } from 'formik'
+import { useRouter } from 'next/navigation';
 import React from 'react'
 import * as Yup from 'yup';
 
 const AddMediaContainer = () => {
+    const router = useRouter();
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
@@ -43,7 +45,9 @@ const AddMediaContainer = () => {
                     throw new Error(response.statusText);
                 }
                 const responseData = await response.json();
-                console.log(responseData);
+                if(responseData.status){
+                    router.replace('/media');
+                }
 
             } catch (error) {
                 console.error('Error:', error);
