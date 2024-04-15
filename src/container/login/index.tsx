@@ -1,24 +1,52 @@
 "use client"
-import React from "react"
+import React, { useEffect } from "react"
 import { useFormik } from 'formik';
 import * as  yup from "yup";
-
+import { useLazyQuery } from "@/hook";
+import { serverFetch } from "@/action";
+import { setCookie } from 'cookies-next';
+import { useRouter } from "next/navigation";
 const validationSchema = yup.object().shape({
     username: yup.string().required("Username is required"),
     password: yup.string().required("Password is required").min(6, "Password must be at least 6 characters"),
   });
 
 const Login=()=>{
+  const[loginpage,{data,loading,error}]=useLazyQuery(serverFetch)
+  const router = useRouter();
     const formik=useFormik({
         initialValues:{
             username:"",
             password:"",
         },
+        
         validationSchema: validationSchema,
         onSubmit:values=>{
-            alert(JSON.stringify(values, null, 2));
+            // alert(JSON.stringify(values, null, 2));
+            loginpage(
+              `mutation Login($userName: String, $password: String) {
+                login(userName: $userName, password: $password) {
+                  token
+                  msg
+                }
+              }
+              `,
+                {
+                  "userName": values.username,
+                  "password": values.password
+                }
+
+              
+            )
         },
     });
+
+    useEffect(()=>{
+      if(data){
+  setCookie('Tokenkey', data.login.token)
+  router.push('/dashboard')
+  };
+    },[data,loading,error])
     return(
 <>
 <div>
