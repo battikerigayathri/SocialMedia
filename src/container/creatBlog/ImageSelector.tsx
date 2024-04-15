@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Gallery, Image } from 'react-grid-gallery';
 import { BeatLoader } from 'react-spinners';
 
-const ImageSelector = ({ setSelectedAssetId, setOpenSelect }: { setSelectedAssetId: Function, setOpenSelect: Function }) => {
+const ImageSelector = ({ setSelectedAssetId, setOpenSelect, selectedAssetId }: { setSelectedAssetId: Function, setOpenSelect: Function, selectedAssetId: string }) => {
     const [images, setImages] = useState<Image[]>([]);
     const [getAssets, { data, loading, error }] = useLazyQuery(serverFetch);
     const [formattedImages, setFormattedImages] = useState<Image[]>([]);
@@ -38,6 +38,15 @@ const ImageSelector = ({ setSelectedAssetId, setOpenSelect }: { setSelectedAsset
     useEffect(() => {
         if (data) {
             const formImages = data?.listAssets?.docs?.map((img: any) => {
+
+                if (img.id === selectedAssetId) {
+                    return {
+                        key: img.id,
+                        src: img?.path,
+                        isSelected: true,
+                        alt: img?.altText
+                    }
+                }
                 return {
                     key: img.id,
                     src: img?.path,

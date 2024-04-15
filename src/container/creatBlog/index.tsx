@@ -48,7 +48,7 @@ function CreatBlog() {
         <div className='flex flex-col w-[calc(100vw-260px)] gap-5'>
             {
                 openSelect &&
-                <ImageSelector setSelectedAssetId={setSelectedAssetId} setOpenSelect={setOpenSelect} />
+                <ImageSelector setSelectedAssetId={setSelectedAssetId} setOpenSelect={setOpenSelect} selectedAssetId={selectedAssetId}/>
             }
             {/* <div className='flex flex-row justify-between p-3 rounded-md bg-gray-100 items-center'>
                 <h4 className='text-center font-bold text-[20px]'>Settings</h4>
