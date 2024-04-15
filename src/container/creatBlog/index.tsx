@@ -11,16 +11,10 @@ import '@mdxeditor/editor/style.css'
 
 function CreatBlog() {
     const [craeteBlogfun, craeteBlogResponse] = useLazyQuery(serverFetch)
-    const [keywordstr, setKeywordstr] = useState('')
     const [getCategories, getCategoriesResponse] = useLazyQuery(serverFetch);
     const [selectedAssetId, setSelectedAssetId] = useState('');
     const [openSelect, setOpenSelect] = useState(false);
     const mdxEditorRef = useRef<MDXEditorMethods>(null);
-    useEffect(() => {
-        if (keywordstr) {
-            // keywordstr.split(,)
-        }
-    }, [keywordstr])
 
     useEffect(() => {
         getCategories(
