@@ -19,8 +19,8 @@ function UsersContainer() {
     const [usersData, setUsersData] = useState<userData[]>([]);
     useEffect(() => {
         Userfun(`
-        query ListUsers($limit: Int!) {
-            listUsers(limit: $limit) {
+        query ListUsers($where: whereUserInput, $limit: Int!) {
+            listUsers(where: $where, limit: $limit) {
               docs {
                 id
                 firstName
@@ -29,13 +29,18 @@ function UsersContainer() {
                 email
                 role
                 status
+                createdOn
+                updatedOn
               }
               limit
             }
           }
         `, {
-            "limit": 10
-        }, {
+            "where": {
+              "role":"USER"
+            },
+            "limit": 100
+          }, {
             cache: 'no-store',
         })
     }, [])
