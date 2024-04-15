@@ -45,25 +45,33 @@ const ImageSelector = ({
 
   useEffect(() => {
     if (data) {
-      let formImages = data?.listAssets?.docs?.map((img: any) => {
-        return {
-          key: img.id,
-          src: img?.path,
-          isSelected: false,
-          alt: img?.altText,
-        };
+      const formImages = data?.listAssets?.docs?.map((img: any) => {
+          return {
+            key: img.id,
+            src: img?.path,
+            isSelected: false,
+            alt: img?.altText,
+          };
       });
 
       setFormattedImages(formImages);
-      setImages(formImages);
+      const images = data?.listAssets?.docs?.map((img: any) => {
+        return {
+          key: img.id,
+          src: img?.path,
+          isSelected: img.id === selectedAssetId,
+          alt: img?.altText,
+        };
+    });
+      setImages(images);
     }
   }, [data, loading, error]);
 
   const handleSelect = (index: number) => {
-    const nextImages = formattedImages.map((image, i) =>
-      i === index ? { ...image, isSelected: !image.isSelected } : image
-    );
     setSelectedAssetId(formattedImages[index].key);
+    const nextImages = formattedImages.map((image, i) => {
+      return i === index ? { ...image, isSelected: !image.isSelected } : image;
+    });
     setImages(nextImages);
   };
 
