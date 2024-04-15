@@ -1,22 +1,20 @@
 "use client"
-import { FaCircleUser } from "react-icons/fa6";
-import { FaCaretDown } from "react-icons/fa";
 import { useState } from "react";
 import Image from "next/image";
-
+import { deleteCookie } from 'cookies-next';
+import { useRouter } from "next/navigation";
 function Header() {
     const [dropdown, setdropdown] = useState(false)
+    const router = useRouter();
     return (
         <div className="bg-gray-200">
             <div className=" w-[100%] px-5 bg-gray-200  text-black flex flex-row justify-between items-center py-2">
                 {/* <h4>Logo</h4> */}
                 <Image src="https://s3.ap-south-1.amazonaws.com/vithiblog.in/webconfig/logo.png" unoptimized alt="logo" height={50} width={200} className="w-auto h-[24px]" />
                 <div className="flex flex-row gap-2">
-                    <FaCircleUser size={20} />
-                    <div className="bg-white rounded-sm" onClick={() => setdropdown(!dropdown)}>
-                        <FaCaretDown size={20} color="black" />
-
-                    </div>
+                 <button className="transition duration-200 mx-5 px-3 py-2 cursor-pointer font-normal text-sm rounded-lg text-black hover:bg-gray-100 focus:outline-none focus:bg-gray-200 focus:ring-2 focus:ring-black focus:ring-opacity-50 ring-inset" onClick={()=>{deleteCookie('Tokenkey'),router.push('/login')}}>
+                    Logout
+                 </button>
                     
                 </div>
                 {/* {dropdown && <div className="bg-white text-black ">
