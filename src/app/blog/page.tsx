@@ -1,10 +1,14 @@
+"use client"
 import BlogContainer from '@/container/blogContainer'
-import React from 'react'
+import ImageSelector from '@/container/creatBlog/ImageSelector'
+import React, { useState } from 'react'
 
 function page() {
+
+
   return (
     <div>
-      <BlogContainer/>
+      <BlogContainer />
     </div>
   )
 }
