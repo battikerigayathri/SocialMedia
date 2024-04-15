@@ -18,7 +18,7 @@ export const Category = mercury.createModel("Category", {
     ref: "Category",
     localField: "_id",
     foreignField: "parent",
-    many: false,
+    many: true,
   },
   parent: {
     type: "relationship",

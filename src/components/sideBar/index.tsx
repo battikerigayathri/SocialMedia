@@ -18,6 +18,10 @@ function SideBar() {
                 href="/media">
                 <span className="mx-3">Media</span>
             </a>
+            <a className={`flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 ${path?.includes('blog') && "bg-gray-700 bg-opacity-25 text-gray-100"}`}
+                href="/blog">
+                <span className="mx-3">Blog</span>
+            </a>
 
             <a className={`flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 ${path?.includes('category') && "bg-gray-700 bg-opacity-25 text-gray-100"}`}
                 href="/category">
