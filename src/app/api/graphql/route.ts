@@ -11,7 +11,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 
 import "./models";
 import "./profiles";
-// import './hooks';
+import './hooks';
 
 
 mercury.connect(process.env.DB_URL!);
