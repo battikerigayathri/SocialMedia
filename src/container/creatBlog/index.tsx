@@ -18,6 +18,36 @@ function CreatBlog() {
     const [openSelect, setOpenSelect] = useState(false);
     const mdxEditorRef = useRef<MDXEditorMethods>(null);
     const router = useRouter()
+    async function getAssetPath(assetId: string) {
+        try {
+            const response = await serverFetch(
+                `
+                query GetAsset($where: whereAssetInput!) {
+                    getAsset(where: $where) {
+                      path
+                      id
+                      name
+                      altText
+                    }
+                  }
+                `,
+                {
+                    "where": {
+                        "id": {
+                            "is": assetId
+                        }
+                    }
+                },
+                {
+                    cache: "no-store"
+                }
+            )
+
+            mdxEditorRef.current?.insertMarkdown(`![${response?.getAsset?.altText}](${response?.getAsset?.path})`)
+        } catch (error: any) {
+            console.log(error.message);
+        }
+    }
     useEffect(() => {
         getCategories(
             `query ListCategorys($where: whereCategoryInput, $limit: Int!) {
@@ -363,6 +393,7 @@ function CreatBlog() {
                                         <ForwardRefEditor
                                             markdown={`Hello **world**!`}
                                             ref={mdxEditorRef}
+                                            getAssetPath={getAssetPath}
                                         />
                                     </div>
                                     <div className='flex flex-row gap-y-5 gap-x-5 flex-wrap justify-center'>
@@ -405,8 +436,12 @@ const Editor = dynamic(() => import("../../components/MdxEditor"), {
 
 // This is what is imported by other components. Pre-initialized with plugins, and ready
 // to accept other props, including a ref.
-export const ForwardRefEditor = forwardRef<MDXEditorMethods, MDXEditorProps>(
-    (props, ref) => <Editor {...props} editorRef={ref} />
+
+interface CustomMdxProps extends MDXEditorProps {
+    getAssetPath: Function
+}
+export const ForwardRefEditor = forwardRef<MDXEditorMethods, CustomMdxProps>(
+    (props, ref) => <Editor {...props} editorRef={ref} getAssetPath={props.getAssetPath} />
 );
 
 // TS complains without the following line

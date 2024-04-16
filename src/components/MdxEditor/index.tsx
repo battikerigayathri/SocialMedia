@@ -2,10 +2,11 @@
 import { useEffect, useState, type ForwardedRef } from 'react'
 import '@mdxeditor/editor/style.css'
 import {
-    imageUploadHandler$,
     type MDXEditorMethods,
     type MDXEditorProps
 } from '@mdxeditor/editor'
+import { FcAddImage } from "react-icons/fc";
+
 
 import {
     MDXEditor,
@@ -31,8 +32,11 @@ import ImageSelector from '@/container/creatBlog/ImageSelector'
 
 export default function InitializedMDXEditor({
     editorRef,
+    getAssetPath,
     ...props
-}: { editorRef: ForwardedRef<MDXEditorMethods> | null } & MDXEditorProps) {
+}: { editorRef: ForwardedRef<MDXEditorMethods> | null, getAssetPath: Function } & MDXEditorProps) {
+
+
 
     const pluginOptions = [
         listsPlugin(),
@@ -42,21 +46,6 @@ export default function InitializedMDXEditor({
         linkDialogPlugin(),
         imagePlugin({
             disableImageSettingsButton: true,
-            ImageDialog: () => {
-                const [openSelect, setOpenSelect] = useState(false);
-                const [selectedAssetId, setSelectedAssetId] = useState("");
-                useEffect(()=>{
-                    console.log(selectedAssetId);
-                    
-                }, [selectedAssetId])
-
-                return (
-                    <div className=''>
-                        <button type='button' onClick={() => setOpenSelect(true)}>Open Images</button>
-                        {openSelect && <ImageSelector setOpenSelect={setOpenSelect} selectedAssetId='' setSelectedAssetId={setOpenSelect} />}
-                    </div>
-                )
-            }
         }),
         tablePlugin(),
         thematicBreakPlugin(),
@@ -75,14 +64,28 @@ export default function InitializedMDXEditor({
 
     if (!props.readOnly) {
         pluginOptions.push(toolbarPlugin({
-            toolbarContents: () => (
-                <>
-                    <KitchenSinkToolbar />
-                    
-                </>
-            )
+
+            toolbarContents: () => {
+                const [openSelect, setOpenSelect] = useState(false);
+                const [selectedAssetId, setSelectedAssetId] = useState("");
+                useEffect(() => {
+                    getAssetPath(selectedAssetId);
+                }, [selectedAssetId])
+                return (
+                    <>
+                        <KitchenSinkToolbar />
+                        <div className=''>
+                            <button type='button' onClick={() => setOpenSelect(true)} className='py-1' title='custom image select'><FcAddImage size={25}/></button>
+                            {openSelect && <ImageSelector setOpenSelect={setOpenSelect} selectedAssetId={selectedAssetId} setSelectedAssetId={setSelectedAssetId} />}
+                        </div>
+
+                    </>
+                )
+
+            }
         }))
     }
+
     return (
         <MDXEditor
             plugins={pluginOptions}
