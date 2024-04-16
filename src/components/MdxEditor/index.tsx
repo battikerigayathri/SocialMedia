@@ -1,7 +1,8 @@
 'use client'
-import type { ForwardedRef } from 'react'
+import { useEffect, useState, type ForwardedRef } from 'react'
 import '@mdxeditor/editor/style.css'
 import {
+    imageUploadHandler$,
     type MDXEditorMethods,
     type MDXEditorProps
 } from '@mdxeditor/editor'
@@ -26,6 +27,7 @@ import {
     KitchenSinkToolbar
 
 } from '@mdxeditor/editor'
+import ImageSelector from '@/container/creatBlog/ImageSelector'
 
 export default function InitializedMDXEditor({
     editorRef,
@@ -38,7 +40,24 @@ export default function InitializedMDXEditor({
         headingsPlugin(),
         linkPlugin(),
         linkDialogPlugin(),
-        imagePlugin(),
+        imagePlugin({
+            disableImageSettingsButton: true,
+            ImageDialog: () => {
+                const [openSelect, setOpenSelect] = useState(false);
+                const [selectedAssetId, setSelectedAssetId] = useState("");
+                useEffect(()=>{
+                    console.log(selectedAssetId);
+                    
+                }, [selectedAssetId])
+
+                return (
+                    <div className=''>
+                        <button type='button' onClick={() => setOpenSelect(true)}>Open Images</button>
+                        {openSelect && <ImageSelector setOpenSelect={setOpenSelect} selectedAssetId='' setSelectedAssetId={setOpenSelect} />}
+                    </div>
+                )
+            }
+        }),
         tablePlugin(),
         thematicBreakPlugin(),
         frontmatterPlugin(),
@@ -50,7 +69,7 @@ export default function InitializedMDXEditor({
             }
         }),
         codeMirrorPlugin({ codeBlockLanguages: { js: 'JavaScript', css: 'CSS', txt: 'text', tsx: 'TypeScript' } }),
-        diffSourcePlugin({ viewMode: 'rich-text', diffMarkdown: 'boo' }),
+        diffSourcePlugin({ viewMode: 'rich-text', diffMarkdown: 'Hello **world**!' }),
         markdownShortcutPlugin()
     ]
 
@@ -59,6 +78,7 @@ export default function InitializedMDXEditor({
             toolbarContents: () => (
                 <>
                     <KitchenSinkToolbar />
+                    
                 </>
             )
         }))
@@ -67,6 +87,7 @@ export default function InitializedMDXEditor({
         <MDXEditor
             plugins={pluginOptions}
             {...props}
+            contentEditableClassName='prose'
             ref={editorRef}
         />
     )

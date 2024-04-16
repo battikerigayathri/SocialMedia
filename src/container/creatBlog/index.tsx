@@ -125,7 +125,7 @@ function CreatBlog() {
                             <Form>
                                 <div className='flex flex-col item-center gap-5 justify-center items-center'>
 
-                                    <div className="flex flex-row gap-y-5 gap-x-5 flex-wrap  justify-center ">
+                                    <div className="flex flex-row gap-y-5 gap-x-5 flex-wrap  justify-center w-[100%]">
                                         <Field name="title">
                                             {({ field, form: { touched, errors }, meta }: any) => (
                                                 <div className='flex flex-col gap-2 '>
@@ -286,7 +286,7 @@ function CreatBlog() {
 
                                                         <input
                                                             {...field}
-                                                            class="form-check-input me-2"
+                                                            className="form-check-input me-2"
                                                             type="checkbox"
                                                             id="pin"
                                                             // possible={true}
@@ -319,7 +319,7 @@ function CreatBlog() {
 
                                                         <input
                                                             {...field}
-                                                            class="form-check-input me-2"
+                                                            className="form-check-input me-2"
                                                             type="checkbox"
                                                             id="featured"
                                                             // possible={true}
@@ -347,11 +347,11 @@ function CreatBlog() {
                                         <div className='flex flex-col gap-2'>
                                             <label className="font-semibold text-sm   block  ">Featured</label>
                                             <div className='bg-blue-500 hover:bg-blue-700 py-1.5 px-5 rounded-lg text-white'>
-                                                <button onClick={() => setOpenSelect(!openSelect)}>Open Image Selector</button>
+                                                <button type='button' onClick={() => setOpenSelect(!openSelect)}>Open Image Selector</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="shadow-md w-full overflow-x-auto">
+                                    <div className="shadow-md w-[97%]">
                                         <ForwardRefEditor
                                             markdown={`Hello **world**!`}
                                             ref={mdxEditorRef}
