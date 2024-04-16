@@ -7,7 +7,6 @@ import { ClipLoader } from 'react-spinners'
 import ImageSelector from './ImageSelector'
 import dynamic from 'next/dynamic'
 import { MDXEditorMethods, MDXEditorProps } from '@mdxeditor/editor'
-import '@mdxeditor/editor/style.css'
 import { useRouter } from 'next/navigation'
 import { compressJsonToBase64 } from '@/utils/methods'
 
@@ -89,11 +88,11 @@ function CreatBlog() {
             {/* <div className='flex flex-row justify-between p-3 rounded-md bg-gray-100 items-center'>
                 <h4 className='text-center font-bold text-[20px]'>Settings</h4>
             </div> */}
-            <div className="shadow-md rounded-b-lg ">
+            <div className="shadow-md rounded-b-lg w-full">
                 <div className='bg-black h-10 rounded-t-lg flex flex-col justify-center font-medium p-2 text-white'>
                     Creat Blog
                 </div>
-                <div className='flex flex-row justify-center items-center align-middle p-3'>
+                <div className='flex flex-row justify-center items-center align-middle p-3 w-full'>
                     <Formik
                         initialValues={{
                             author: '', category: [], description: '', featured: false, keywords: [], metaDescription: '', metaTitle: '', pin: false, thumbnail: '', title: '', status: '',
@@ -389,7 +388,7 @@ function CreatBlog() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="shadow-md w-[97%]">
+                                    <div className="shadow-md w-full">
                                         <ForwardRefEditor
                                             markdown={`Hello **world**!`}
                                             ref={mdxEditorRef}
