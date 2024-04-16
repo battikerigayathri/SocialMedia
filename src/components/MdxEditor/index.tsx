@@ -1,11 +1,11 @@
 'use client'
 import { useEffect, useState, type ForwardedRef } from 'react'
-import '@mdxeditor/editor/style.css'
 import {
     type MDXEditorMethods,
     type MDXEditorProps
 } from '@mdxeditor/editor'
 import { FcAddImage } from "react-icons/fc";
+import '@mdxeditor/editor/style.css'
 
 
 import {
@@ -75,7 +75,7 @@ export default function InitializedMDXEditor({
                     <>
                         <KitchenSinkToolbar />
                         <div className=''>
-                            <button type='button' onClick={() => setOpenSelect(true)} className='py-1' title='custom image select'><FcAddImage size={25}/></button>
+                            <button type='button' onClick={() => setOpenSelect(true)} className='py-1' title='custom image select'><FcAddImage size={25} /></button>
                             {openSelect && <ImageSelector setOpenSelect={setOpenSelect} selectedAssetId={selectedAssetId} setSelectedAssetId={setSelectedAssetId} />}
                         </div>
 
@@ -87,11 +87,13 @@ export default function InitializedMDXEditor({
     }
 
     return (
-        <MDXEditor
-            plugins={pluginOptions}
-            {...props}
-            contentEditableClassName='prose'
-            ref={editorRef}
-        />
+        <div className='prose w-screen'>
+
+            <MDXEditor
+                plugins={pluginOptions}
+                {...props}
+                ref={editorRef}
+            />
+        </div>
     )
 }

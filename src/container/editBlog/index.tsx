@@ -457,7 +457,7 @@ function EditBlog() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="shadow-md w-[97%]">
+                                    <div className="shadow-md">
                                         <ForwardRefEditor
                                             markdown={`Hello **world**!`}
                                             ref={mdxEditorRef}

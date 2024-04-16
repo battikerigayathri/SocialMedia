@@ -388,7 +388,7 @@ function CreatBlog() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="shadow-md w-full">
+                                    <div className="shadow-md">
                                         <ForwardRefEditor
                                             markdown={`Hello **world**!`}
                                             ref={mdxEditorRef}
