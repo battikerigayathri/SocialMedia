@@ -23,16 +23,18 @@ const BlogListCard = ({
   description: string | undefined,
   created: string,
   id: string | undefined,
-  content: string | undefined
+  content?: string | undefined
 }) => {
   const [deleteBlog, { data, loading, error }] = useLazyQuery(serverFetch);
 
   const router = useRouter();
 
   const handleBlogDelete = () => {
-    // deleteBlog(DELETE_BLOG, {
-    //   deleteBlogId: id,
-    // });
+    deleteBlog(`mutation DeleteBlog($deleteBlogId: ID!) {
+      deleteBlog(id: $deleteBlogId)
+    }`, {
+      deleteBlogId: id,
+    });
   };
 
   useEffect(() => {
@@ -97,12 +99,12 @@ const BlogListCard = ({
               </p>
             </div>
             <div className="overflow-hidden w-full h-full">
-              <Link
-                href={`blog/${id}`}>
-                <h5 className="text-gray-900 font-bold text-xl tracking-tight mb-2 hover:underline  overflow-hidden line-clamp-2">
+              {/* <Link
+                href={`blog/${id}`}> */}
+                <h5 className="text-gray-900 font-bold text-xl tracking-tight mb-2   overflow-hidden line-clamp-2">
                   {heading}
                 </h5>
-              </Link>
+              {/* </Link> */}
               <p className="font-normal text-gray-700 mb-3 overflow-hidden line-clamp-3">
                 {description}
               </p>

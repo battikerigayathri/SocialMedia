@@ -8,6 +8,8 @@ import ImageSelector from './ImageSelector'
 import dynamic from 'next/dynamic'
 import { MDXEditorMethods, MDXEditorProps } from '@mdxeditor/editor'
 import '@mdxeditor/editor/style.css'
+import { useRouter } from 'next/navigation'
+import { compressJsonToBase64 } from '@/utils/methods'
 
 function CreatBlog() {
     const [craeteBlogfun, craeteBlogResponse] = useLazyQuery(serverFetch)
@@ -15,7 +17,7 @@ function CreatBlog() {
     const [selectedAssetId, setSelectedAssetId] = useState('');
     const [openSelect, setOpenSelect] = useState(false);
     const mdxEditorRef = useRef<MDXEditorMethods>(null);
-
+    const router = useRouter()
     useEffect(() => {
         getCategories(
             `query ListCategorys($where: whereCategoryInput, $limit: Int!) {
@@ -41,14 +43,18 @@ function CreatBlog() {
     }, [])
     useEffect(() => {
         if (getCategoriesResponse.data) {
-
         }
     }, [getCategoriesResponse.data, getCategoriesResponse.error, getCategoriesResponse.loading])
+    useEffect(() => {
+        if (craeteBlogResponse?.data) {
+            router.push('/blog')
+        }
+    }, [craeteBlogResponse?.data])
     return (
         <div className='flex flex-col w-[calc(100vw-260px)] gap-5'>
             {
                 openSelect &&
-                <ImageSelector setSelectedAssetId={setSelectedAssetId} setOpenSelect={setOpenSelect} selectedAssetId={selectedAssetId}/>
+                <ImageSelector setSelectedAssetId={setSelectedAssetId} setOpenSelect={setOpenSelect} selectedAssetId={selectedAssetId} />
             }
             {/* <div className='flex flex-row justify-between p-3 rounded-md bg-gray-100 items-center'>
                 <h4 className='text-center font-bold text-[20px]'>Settings</h4>
@@ -109,11 +115,13 @@ function CreatBlog() {
                                         "pin": values?.pin,
                                         "thumbnail": selectedAssetId,
                                         "title": values?.title,
-                                        "status": values?.status
+                                        "status": values?.status,
+                                        "content": compressJsonToBase64(mdxEditorRef.current?.getMarkdown()),
                                     }
                                 }, {
                                     cache: 'no-store',
                                 })
+
                             } catch (e) {
                                 console.log(e)
 
@@ -345,7 +353,7 @@ function CreatBlog() {
                                             )}
                                         </Field>
                                         <div className='flex flex-col gap-2'>
-                                            <label className="font-semibold text-sm   block  ">Featured</label>
+                                            <label className="font-semibold text-sm   block  ">Thumbnail</label>
                                             <div className='bg-blue-500 hover:bg-blue-700 py-1.5 px-5 rounded-lg text-white'>
                                                 <button type='button' onClick={() => setOpenSelect(!openSelect)}>Open Image Selector</button>
                                             </div>
