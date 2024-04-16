@@ -66,7 +66,7 @@ const BlogListCard = ({
               <button
                 className="px-2 py-1 bg-blue-400 hover:bg-blue-900 rounded hover:text-white text-[10px]"
                 onClick={() => {
-                  router.push(`blog/update?id=${id}`);
+                  router.push(`blog/edit?id=${id}`);
                 }}
               >
                 <span>
