@@ -8,7 +8,7 @@ import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 const client = new S3Client({
   region: process.env.AWS_REGION_KEY,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY || "",
+    accessKeyId: process.env.AWS_ACCESS_KEY || "AKIAUGJSFTLHXBO2645E",
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
   },
 });

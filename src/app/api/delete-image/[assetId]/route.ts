@@ -4,11 +4,11 @@ import { DeleteObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 
 const client = new S3Client({
-    region: process.env.AWS_REGION_KEY,
-    credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY || "",
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
-    },
+  region: process.env.AWS_REGION_KEY,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY || "AKIAUGJSFTLHXBO2645E",
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
+  },
 });
 
 export async function DELETE(request: NextRequest, params: any) {
@@ -38,6 +38,5 @@ export async function DELETE(request: NextRequest, params: any) {
 
         return NextResponse.json({ success: true, message: "Asset deleted successfully." }, { status: 200 });
     } catch (error: any) {
-        return new NextResponse(error.message, { status: 400 });
-    }
+     }
 }
