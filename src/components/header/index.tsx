@@ -8,7 +8,7 @@ function Header() {
     const [token, setToken] = useState(false);
     const router = useRouter();
     useEffect(() => {
-        setToken(getCookie("tokenKey") ? true : false);
+        setToken(getCookie("tokenkey") ? true : false);
     }, [])
     return (
         <div className="bg-gray-200">
