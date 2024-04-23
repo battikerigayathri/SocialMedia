@@ -1,12 +1,11 @@
 
 export async function serverFetch(query: string, variables: any, options: any) {
-
   try {
     const data = await fetch(
-      `/api/graphql`,
+      `${process.env.NEXT_PUBLIC_CURRENT_DOMAIN}api/graphql`,
       {
         method: 'POST',
-        headers:{
+        headers: {
           'content-type': 'application/json',
           //   Authorization: userData ? userData.token : undefined,
         },
@@ -30,8 +29,8 @@ export async function serverFetch(query: string, variables: any, options: any) {
 }
 
 
-export const uploadFile = async (file:any) => {
-  console.log(file,"waerctfvgbhnj")
+export const uploadFile = async (file: any) => {
+
   try {
     const formData = new FormData();
     formData.append('file', file);
