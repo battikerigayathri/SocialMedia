@@ -1,8 +1,16 @@
+
+import BlogContainer from '@/container/blogContainer'
+import Clientblogview from '@/container/clientblogcontainer'
 import React from 'react'
 
 const page = () => {
     return (
-        <div>Here the client side blogs will come </div>
+        <>
+      
+        <div>
+        <Clientblogview/>
+        </div>
+        </>
     )
 }
 
