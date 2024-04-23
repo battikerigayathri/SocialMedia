@@ -23,8 +23,8 @@ function ViewUser() {
         .filter((segment) => segment !== "");
     console.log(currentPath.get("id"), "pathSegments")
     console.log(currentPath.get("edit"), "pathSegments")
-const disabled=(currentPath.get("edit")==="true")
-console.log(disabled,typeof(disabled),"disabled")
+    const disabled = (currentPath.get("edit") === "true")
+    console.log(disabled, typeof (disabled), "disabled")
     console.log(pathSegments, "pathSegments")
     useEffect(() => {
         getUserfun(`
@@ -59,25 +59,25 @@ console.log(disabled,typeof(disabled),"disabled")
     useEffect(() => {
         if (updateUserResponse?.data?.updateUser) {
             console.log(updateUserResponse?.data?.updateUser, "UpdateUser")
-            router.push('/users')
+            router.push('/admin/dashboard/users')
         }
     }, [updateUserResponse])
     useEffect(() => {
         if (deleteUserResponse?.data) {
-            router.push('/users')
+            router.push('/admin/dashboard/users')
         }
     }, [deleteUserResponse])
-    const DeleteUser= ()=>{
+    const DeleteUser = () => {
         deleteUserfun(`
 mutation DeleteUser($deleteUserId: ID!) {
     deleteUser(id: $deleteUserId)
-  }`,{
-    "deleteUserId": currentPath.get("id")
-  },{
-    cache: 'no-store',
-})
+  }`, {
+            "deleteUserId": currentPath.get("id")
+        }, {
+            cache: 'no-store',
+        })
     }
- 
+
     return (
         <div className='flex flex-col w-[calc(100vw-260px)] gap-5'>
             {/* <div className='flex flex-row justify-between p-3 rounded-md bg-gray-100 items-center'>
@@ -85,29 +85,29 @@ mutation DeleteUser($deleteUserId: ID!) {
             </div> */}
             <div className="shadow-md rounded-b-lg ">
                 <div className='bg-black h-10 rounded-t-lg flex flex-col justify-center font-medium p-2 text-white'>
-                <h4 className=' font-medium text-[14px]'>User</h4>
+                    <h4 className=' font-medium text-[14px]'>User</h4>
 
                     {/* {updateSettings?"Change your settings here":"Your settings"} */}
                 </div>
-                {getUserResponse?.loading ?<div className='flex flex-row justify-center items-center'> <BeatLoader color="gray" size={20} /></div>:
-                <div className='flex flex-row justify-center items-center align-middle p-3'>
-            <Formik
-                initialValues={{
-                    firstName: getUserResponse?.data?.getUser?.firstName,
-                    lastName: getUserResponse?.data?.getUser?.lastName,
-                    email: getUserResponse?.data?.getUser?.email,
-                    userName: getUserResponse?.data?.getUser?.userName,
-                    role: getUserResponse?.data?.getUser?.role,
-                    status: getUserResponse?.data?.getUser?.status,
+                {getUserResponse?.loading ? <div className='flex flex-row justify-center items-center'> <BeatLoader color="gray" size={20} /></div> :
+                    <div className='flex flex-row justify-center items-center align-middle p-3'>
+                        <Formik
+                            initialValues={{
+                                firstName: getUserResponse?.data?.getUser?.firstName,
+                                lastName: getUserResponse?.data?.getUser?.lastName,
+                                email: getUserResponse?.data?.getUser?.email,
+                                userName: getUserResponse?.data?.getUser?.userName,
+                                role: getUserResponse?.data?.getUser?.role,
+                                status: getUserResponse?.data?.getUser?.status,
 
-                }}
-                // validationSchema={validationSchema}
-                enableReinitialize={true}
-                onSubmit={async (values, { resetForm }) => {
-                    console.log(values, "values")
-                    try {
-                        setLoading(true)
-                        updateUserfun(`
+                            }}
+                            // validationSchema={validationSchema}
+                            enableReinitialize={true}
+                            onSubmit={async (values, { resetForm }) => {
+                                console.log(values, "values")
+                                try {
+                                    setLoading(true)
+                                    updateUserfun(`
                         mutation UpdateUser($input: updateUserInput!) {
                             updateUser(input: $input) {
                               id
@@ -122,180 +122,182 @@ mutation DeleteUser($deleteUserId: ID!) {
                             }
                           }
                         `, {
-                            "input": {
-                                "firstName": values?.firstName,
-                                "lastName": values?.lastName,
-                                "status": values?.status,
-                                id:currentPath.get("id")
-                            }
-                        }, {
-                            cache: 'no-store',
-                        })
-                    } catch (e) {
-                        console.log(e)
-                        setLoading(false)
+                                        "input": {
+                                            "firstName": values?.firstName,
+                                            "lastName": values?.lastName,
+                                            "status": values?.status,
+                                            id: currentPath.get("id")
+                                        }
+                                    }, {
+                                        cache: 'no-store',
+                                    })
+                                } catch (e) {
+                                    console.log(e)
+                                    setLoading(false)
 
-                    }
-                    setLoading(false)
+                                }
+                                setLoading(false)
 
-                }}
-            >
-                {(props) => (
-                    <Form>
-                        <div className='flex flex-col item-center gap-5 justify-center '>
+                            }}
+                        >
+                            {(props) => (
+                                <Form>
+                                    <div className='flex flex-col item-center gap-5 justify-center '>
 
-                            <div className="flex flex-row gap-y-5 gap-x-5 flex-wrap  justify-center">
-                                <Field name="firstName">
-                                    {({ field, form: { touched, errors }, meta }: any) => (
-                                        <div className='flex flex-row gap-2 items-center'>
-                                            <label className="font-semibold text-sm   block w-20">First Name</label>
-                                            <input {...field} type="text" disabled={!disabled} placeholder="First Name*" className="border-2 bg-gray-50 p-2 rounded" style={{
-                                                border: `${meta.touched && meta.error
-                                                    ? "2px solid red"
-                                                    : "1px solid gray"
-                                                    }`,
-                                            }} />
+                                        <div className="flex flex-row gap-y-5 gap-x-5 flex-wrap  justify-center">
+                                            <Field name="firstName">
+                                                {({ field, form: { touched, errors }, meta }: any) => (
+                                                    <div className='flex flex-row gap-2 items-center'>
+                                                        <label className="font-semibold text-sm   block w-20">First Name</label>
+                                                        <input {...field} type="text" disabled={!disabled} placeholder="First Name*" className="border-2 bg-gray-50 p-2 rounded" style={{
+                                                            border: `${meta.touched && meta.error
+                                                                ? "2px solid red"
+                                                                : "1px solid gray"
+                                                                }`,
+                                                        }} />
+                                                    </div>
+
+                                                )}
+                                            </Field>
+                                            <Field name="lastName">
+                                                {({ field, form: { touched, errors }, meta }: any) => (
+                                                    <div className='flex flex-row gap-2 items-center'>
+                                                        <label className="font-semibold text-sm   block  w-20">Last Name</label>
+
+                                                        <input {...field} type="text" placeholder="Last Name*" disabled={!disabled} className="border-2 bg-gray-50 p-2 rounded" style={{
+                                                            border: `${meta.touched && meta.error
+                                                                ? "2px solid red"
+                                                                : "1px solid gray"
+                                                                }`,
+                                                        }} />
+                                                    </div>
+
+                                                )}
+                                            </Field>
+
+                                            <Field name="email">
+                                                {({ field, form: { touched, errors }, meta }: any) => (
+                                                    <div className='flex flex-row gap-2 items-center'>
+                                                        <label className="font-semibold text-sm   block  w-20">Email</label>
+
+                                                        <input {...field} disabled type="email" placeholder="email*" className="border-2 bg-gray-50 p-2 rounded" style={{
+                                                            border: `${meta.touched && meta.error
+                                                                ? "2px solid red"
+                                                                : "1px solid gray"
+                                                                }`,
+                                                        }} />
+                                                    </div>
+
+                                                )}
+                                            </Field>
+
+                                            <Field name="userName">
+                                                {({ field, form: { touched, errors }, meta }: any) => (
+                                                    <div className='flex flex-row gap-2 items-center'>
+                                                        <label className="font-semibold text-sm   block  w-20">User Name</label>
+
+                                                        <input {...field} disabled type="text" placeholder="userName*" className="border-2 bg-gray-50 p-2 rounded" style={{
+                                                            border: `${meta.touched && meta.error
+                                                                ? "2px solid red"
+                                                                : "1px solid gray"
+                                                                }`,
+                                                        }} />
+
+                                                    </div>
+
+                                                )}
+                                            </Field>
+                                            <Field name="role">
+                                                {({ field, form: { touched, errors }, meta }: any) => (
+                                                    <div className='flex flex-row gap-2 items-center'>
+                                                        <label className="font-semibold text-sm   block  w-20">Role</label>
+
+                                                        <select
+                                                            {...field}
+                                                            disabled
+                                                            className="border-2 bg-gray-50 p-2 rounded w-[233.6px]"
+                                                            style={{
+                                                                border: `${meta.touched && meta.error ? "2px solid red" : "1px solid gray"
+                                                                    }`,
+                                                            }}
+                                                        >
+                                                            <option value="USER" disabled selected>
+                                                                User
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                )}
+                                            </Field>
+                                            <Field name="status">
+                                                {({ field, form: { touched, errors }, meta }: any) => (
+                                                    <div className='flex flex-row gap-2 items-center'>
+                                                        <label className="font-semibold text-sm   block  w-20">Status</label>
+
+                                                        <select
+                                                            {...field}
+                                                            disabled={!disabled}
+                                                            className="border-2 bg-gray-50 p-2 rounded w-[233.6px]"
+
+                                                            style={{
+                                                                border: `${meta.touched && meta.error ? "2px solid red" : "1px solid gray"
+                                                                    }`,
+                                                            }}
+                                                        >
+                                                            <option value="" disabled selected>
+                                                                Select a status
+                                                            </option>
+                                                            <option value="ACTIVE"  >
+                                                                Active
+                                                            </option>
+                                                            <option value="IN_ACTIVE" >
+                                                                In Active
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                )}
+                                            </Field>
+
                                         </div>
+                                        <div className='flex flex-row gap-y-5 gap-x-5 flex-wrap justify-center'>
+                                            {currentPath.get("edit") == "true" ?
+                                                <button type="submit" className=" bg-blue-950 rounded-md p-2 text-white font-bold text-sm h-10 w-[200px]"> {loading ? (
+                                                    <div
+                                                        style={{
+                                                            display: "flex",
+                                                            justifyContent: "center",
+                                                            alignItems: "center",
+                                                        }}
+                                                    >
+                                                        <ClipLoader size={20} color="#000" />
+                                                    </div>
+                                                ) : (
+                                                    "update"
+                                                )}</button> : <div className=" bg-blue-950 rounded-md p-2 text-white font-bold text-sm h-10 w-[200px] text-center cursor-pointer" onClick={() => router.push(`view?edit=true&id=${currentPath.get("id")}`)}>
+                                                    Edit
+                                                </div>}
+                                            <div className=" bg-[gray] flex flex-row justify-center rounded-md p-2 w-[200px] text-white font-bold text-sm h-10 cursor-pointer" onClick={() => router.back()}> Cancel</div>
 
-                                    )}
-                                </Field>
-                                <Field name="lastName">
-                                    {({ field, form: { touched, errors }, meta }: any) => (
-                                        <div className='flex flex-row gap-2 items-center'>
-                                            <label className="font-semibold text-sm   block  w-20">Last Name</label>
-
-                                            <input {...field} type="text" placeholder="Last Name*" disabled={!disabled} className="border-2 bg-gray-50 p-2 rounded" style={{
-                                                border: `${meta.touched && meta.error
-                                                    ? "2px solid red"
-                                                    : "1px solid gray"
-                                                    }`,
-                                            }} />
+                                            <button type="submit" className=" bg-red-700 rounded-md p-2 text-white font-bold text-sm h-10 w-[200px]" onClick={() => DeleteUser()}> {loading ? (
+                                                <div
+                                                    style={{
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                    }}
+                                                >
+                                                    <ClipLoader size={20} color="#000" />
+                                                </div>
+                                            ) : (
+                                                "Delete"
+                                            )}</button>
                                         </div>
-
-                                    )}
-                                </Field>
-
-                                <Field name="email">
-                                    {({ field, form: { touched, errors }, meta }: any) => (
-                                        <div className='flex flex-row gap-2 items-center'>
-                                            <label className="font-semibold text-sm   block  w-20">Email</label>
-
-                                            <input {...field} disabled type="email" placeholder="email*" className="border-2 bg-gray-50 p-2 rounded" style={{
-                                                border: `${meta.touched && meta.error
-                                                    ? "2px solid red"
-                                                    : "1px solid gray"
-                                                    }`,
-                                            }} />
-                                        </div>
-
-                                    )}
-                                </Field>
-
-                                <Field name="userName">
-                                    {({ field, form: { touched, errors }, meta }: any) => (
-                                        <div className='flex flex-row gap-2 items-center'>
-                                            <label className="font-semibold text-sm   block  w-20">User Name</label>
-
-                                            <input {...field} disabled type="text" placeholder="userName*" className="border-2 bg-gray-50 p-2 rounded" style={{
-                                                border: `${meta.touched && meta.error
-                                                    ? "2px solid red"
-                                                    : "1px solid gray"
-                                                    }`,
-                                            }} />
-
-                                        </div>
-
-                                    )}
-                                </Field>
-                                <Field name="role">
-                                    {({ field, form: { touched, errors }, meta }: any) => (
-                                        <div className='flex flex-row gap-2 items-center'>
-                                            <label className="font-semibold text-sm   block  w-20">Role</label>
-
-                                            <select
-                                                {...field}
-                                                disabled
-                                                className="border-2 bg-gray-50 p-2 rounded w-[233.6px]"
-                                                style={{
-                                                    border: `${meta.touched && meta.error ? "2px solid red" : "1px solid gray"
-                                                        }`,
-                                                }}
-                                            >
-                                                <option value="USER" disabled selected>
-                                                    User
-                                                </option>
-                                            </select>
-                                        </div>
-                                    )}
-                                </Field>
-                                <Field name="status">
-                                    {({ field, form: { touched, errors }, meta }: any) => (
-                                        <div className='flex flex-row gap-2 items-center'>
-                                            <label className="font-semibold text-sm   block  w-20">Status</label>
-
-                                            <select
-                                                {...field}
-                                                disabled={!disabled}
-                                                className="border-2 bg-gray-50 p-2 rounded w-[233.6px]"
-
-                                                style={{
-                                                    border: `${meta.touched && meta.error ? "2px solid red" : "1px solid gray"
-                                                        }`,
-                                                }}
-                                            >
-                                                <option value="" disabled selected>
-                                                    Select a status
-                                                </option>
-                                                <option value="ACTIVE"  >
-                                                    Active
-                                                </option>
-                                                <option value="IN_ACTIVE" >
-                                                    In Active
-                                                </option>
-                                            </select>
-                                        </div>
-                                    )}
-                                </Field>
-
-                            </div>
-                            <div className='flex flex-row gap-y-5 gap-x-5 flex-wrap justify-center'>
-                                {currentPath.get("edit") == "true" ?
-                                    <button type="submit" className=" bg-blue-950 rounded-md p-2 text-white font-bold text-sm h-10 w-[100px]"> {loading ? (
-                                        <div
-                                            style={{
-                                                display: "flex",
-                                                justifyContent: "center",
-                                                alignItems: "center",
-                                            }}
-                                        >
-                                            <ClipLoader size={20} color="#000" />
-                                        </div>
-                                    ) : (
-                                        "update"
-                                    )}</button> : <div className=" bg-blue-950 rounded-md p-2 text-white font-bold text-sm h-10 w-[100px] text-center" onClick={()=>router.push(`view?edit=true&id=${currentPath.get("id")}`)}>
-                                        Edit
-                                    </div>}
-                                <button type="submit" className=" bg-red-700 rounded-md p-2 text-white font-bold text-sm h-10 w-[100px]" onClick={()=>DeleteUser()}> {loading ? (
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                        }}
-                                    >
-                                        <ClipLoader size={20} color="#000" />
                                     </div>
-                                ) : (
-                                    "Delete"
-                                )}</button>
-                            </div>
-                        </div>
 
-                    </Form>
-                )}
-            </Formik>
-                </div>}
-                </div>
+                                </Form>
+                            )}
+                        </Formik>
+                    </div>}
+            </div>
         </div>
 
     )

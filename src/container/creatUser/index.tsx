@@ -33,7 +33,7 @@ function CreatUser() {
     useEffect(() => {
         if (craeteUserResponse?.data) {
             console.log(craeteUserResponse?.data)
-            router.push("/users")
+            router.push("/admin/dashboard/users")
         }
     }, [craeteUserResponse])
 
@@ -250,7 +250,11 @@ function CreatUser() {
 
 
 
-                                            <button type="submit" className=" bg-blue-950 rounded-md p-2 text-white font-bold text-sm h-10"> {loading ? (
+                                            
+                                        </div>
+                                        <div className='flex flex-row justify-center gap-5'>
+
+                                        <button type="submit" className=" bg-blue-950 rounded-md p-2 w-[200px] text-white font-bold text-sm h-10"> {loading ? (
                                                 <div
                                                     style={{
                                                         display: "flex",
@@ -263,6 +267,7 @@ function CreatUser() {
                                             ) : (
                                                 "Submit"
                                             )}</button>
+                                            <div  className=" bg-[gray] flex flex-row justify-center rounded-md p-2 w-[200px] text-white font-bold text-sm h-10 cursor-pointer" onClick={()=>router.back()}> Cancel</div>
                                         </div>
                                     </div>
 

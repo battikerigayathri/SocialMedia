@@ -40,12 +40,12 @@ const BlogListCard = ({
 
   useEffect(() => {
     if (data) {
-      toast.success("Blog Deleted")
+      // toast.success("Blog Deleted")
 
       window.location.reload();
     }
     if (error) {
-        toast.success(error?.message)
+        // toast.error(error?.message)
 
     }
   }, [data, loading, error]);
@@ -67,7 +67,7 @@ const BlogListCard = ({
               <button
                 className="px-2 py-1 bg-blue-400 hover:bg-blue-900 rounded hover:text-white text-[10px]"
                 onClick={() => {
-                  router.push(`blog/edit?id=${id}`);
+                  router.push(`/admin/dashboard/blog/edit?id=${id}`);
                 }}
               >
                 <span>
@@ -116,7 +116,7 @@ const BlogListCard = ({
           </div>
         </div>
       </div>
-      <Toaster />
+      {/* <Toaster /> */}
 
     </div>
   );
