@@ -8,13 +8,16 @@ export const User = mercury.createModel("User", {
     type: "string",
     required: true,
   },
-  userName:{
-       type:"string",
-       required:true
+  userName: {
+    type: "string",
+    required: true,
+    unique: true,
   },
   email: {
     type: "string",
     required: true,
+    unique: true,
+    isEditable: true,
   },
   password: {
     type: "string",
