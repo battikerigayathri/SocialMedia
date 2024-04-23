@@ -19,8 +19,8 @@ function UsersContainer() {
     const [usersData, setUsersData] = useState<userData[]>([]);
     useEffect(() => {
         Userfun(`
-        query ListUsers($where: whereUserInput, $limit: Int!) {
-            listUsers(where: $where, limit: $limit) {
+        query ListUsers($where: whereUserInput, $limit: Int!,$sort: sortUserInput) {
+            listUsers(where: $where, limit: $limit,sort: $sort) {
               docs {
                 id
                 firstName
@@ -39,7 +39,10 @@ function UsersContainer() {
             "where": {
               "role":"USER"
             },
-            "limit": 100
+            "limit": 100,
+            "sort": {
+                "createdOn": "desc"
+              }
           }, {
             cache: 'no-store',
         })
@@ -59,7 +62,7 @@ function UsersContainer() {
         <div className='flex flex-col w-[calc(100vw-260px)]' >
             <div className='flex flex-row justify-between p-3 rounded-md bg-gray-100 items-center'>
                 <h4 className='text-center font-bold text-[20px]'>Users</h4>
-                <button className='bg-blue-950 text-white p-2 rounded-md' onClick={() => router.push("/admin/dashboard/users/addUser")}>Add</button>
+                <button className='bg-blue-950 text-white p-2 rounded-md' onClick={() => router.push("/admin/dashboard/users/addUser")}>Creat User</button>
             </div>
             {UserResponse?.loading? <div className='flex flex-row justify-center items-center'> <BeatLoader color="gray" size={20} /></div>:
 
@@ -76,15 +79,16 @@ function UsersContainer() {
                                     <th
                                         className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                                         User Name</th>
+                                        <th
+                                        className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                                        Name</th>
                                     <th
                                         className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                                         Email</th>
                                     <th
                                         className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                                         Role</th>
-                                    <th
-                                        className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                        Status</th>
+                                    
                                     <th
                                         className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                                         Actions</th>
@@ -111,6 +115,9 @@ function UsersContainer() {
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td
+                                                className="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200 w-[330px] ">
+                                                {`${item?.firstName} ${item?.lastName}`}</td>
 
                                             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                                 <div className="text-sm leading-5 text-gray-900">{item?.email}</div>
@@ -121,9 +128,7 @@ function UsersContainer() {
                                                     className={`inline-flex px-2 text-xs font-semibold leading-5 ${item?.status === "ACTIVE" ? "text-green-800 bg-green-100" : "text-orange-800 bg-orange-100"} rounded-full`}>{item?.status}</span>
                                             </td>
 
-                                            <td
-                                                className="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
-                                                {item?.role}</td>
+                                            
 
                                             <td
 

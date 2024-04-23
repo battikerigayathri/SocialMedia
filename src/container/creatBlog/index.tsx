@@ -397,7 +397,7 @@ function CreatBlog() {
                                     </div>
                                     <div className='flex flex-row gap-y-5 gap-x-5 flex-wrap justify-center'>
 
-                                        <button type="submit" className=" bg-blue-950 rounded-md p-2 text-white font-bold text-sm h-10 w-[100px]"> {craeteBlogResponse?.loading ? (
+                                        <button type="submit" className=" bg-blue-950 rounded-md p-2 w-[200px] text-white font-bold text-sm h-10 "> {craeteBlogResponse?.loading ? (
                                             <div
                                                 style={{
                                                     display: "flex",
@@ -410,6 +410,8 @@ function CreatBlog() {
                                         ) : (
                                             "Submit"
                                         )}</button>
+                                        <div  className=" bg-[gray] flex flex-row justify-center rounded-md p-2 w-[200px] text-white font-bold text-sm h-10 cursor-pointer" onClick={()=>router.back()}> Cancel</div>
+
                                     </div>
                                 </div>
 
