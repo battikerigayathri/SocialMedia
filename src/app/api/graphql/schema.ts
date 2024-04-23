@@ -4,7 +4,7 @@ const typeDefs = `
   }
   type Mutation{
     login(userName:String,password:String):loginResponse
-    forgetPassword(email:String):forgetPasswordResponse
+    forgetPassword(email:String,verificationCode:String):forgetPasswordResponse
      resetPassword(email: String!, otp: String, newPassword: String!): ResetPasswordResponse
   }
   type loginResponse{
