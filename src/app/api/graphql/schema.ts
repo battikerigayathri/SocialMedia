@@ -3,21 +3,26 @@ const typeDefs = `
     hello(name: String): String,
   }
   type Mutation{
-    login(userName:String,password:String):loginResponse
-    forgetPassword(email:String,verificationCode:String):forgetPasswordResponse
-     resetPassword(email: String!, otp: String, newPassword: String!): ResetPasswordResponse
+  login(userName:String,password:String):loginResponse
+    forgetPassword(email:String):forgetPasswordResponse
+    verifyOtp(email:String,otp:String):verifyResponse
+     resetPassword(email: String,  newPassword: String): ResetPasswordResponse
   }
   type loginResponse{
 msg:String
 token:String
+ userAccountExists:Boolean!
   }
   type forgetPasswordResponse{
    msg:String
-code:String
+otp:String
+email:String
   }
   type ResetPasswordResponse {
- msg: String!
+ msg: String
 }
-
+type verifyResponse{
+  msg:String
+}
 `;
 export default typeDefs;

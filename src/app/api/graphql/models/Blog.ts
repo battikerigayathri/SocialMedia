@@ -3,6 +3,9 @@ export const Blog = mercury.createModel("Blog", {
   title: {
     type: "string",
   },
+  slug: {
+    type:"string"
+  },
   status: {
     type: "enum",
     enumType: "string",
