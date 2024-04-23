@@ -13,7 +13,7 @@ token:String
   }
   type forgetPasswordResponse{
    msg:String
-code:Int
+code:String
   }
   type ResetPasswordResponse {
  msg: String!
