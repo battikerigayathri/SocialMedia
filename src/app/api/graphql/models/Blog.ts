@@ -16,6 +16,9 @@ export const Blog = mercury.createModel("Blog", {
     ],
     default: "DRAFT"
   },
+  slug: {
+    type: "string",
+  },
   author: {
     type: "relationship",
     ref: "User"

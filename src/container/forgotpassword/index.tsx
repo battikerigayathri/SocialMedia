@@ -7,8 +7,7 @@ import { serverFetch } from "@/action";
 import { useRouter } from "next/navigation";
 
 const validationSchema = yup.object().shape({
-  email: yup.string().email().required("Please enter user name"),
-
+  email: yup.string().email().required("Please enter user email"),
   });
 
 const Forgotpassword=()=>{
