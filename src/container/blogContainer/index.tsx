@@ -67,7 +67,7 @@ const router =useRouter()
     <div className='flex flex-col w-[calc(100vw-260px)] gap-5' >
     <div className='flex flex-row justify-between p-3 rounded-md bg-gray-100 items-center'>
         <h4 className='text-center font-bold text-[20px]'>Blogs</h4>
-        <button className='bg-blue-950 text-white p-2 rounded-md' onClick={() => router.push("/blog/add")}>Add</button>
+        <button className='bg-blue-950 text-white p-2 rounded-md' onClick={() => router.push("/admin/dashboard/blog/add")}>Add</button>
     </div>
     <div className="flex flex-col pt-5 h-[calc(100vh-170px)]" style={{ overflowY: "auto", overflowX: "hidden" }}>
 

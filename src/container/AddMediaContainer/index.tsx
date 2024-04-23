@@ -46,7 +46,7 @@ const AddMediaContainer = () => {
                 }
                 const responseData = await response.json();
                 if(responseData.status){
-                    router.replace('/media');
+                    router.replace('/admin/dashboard/media');
                 }
 
             } catch (error) {

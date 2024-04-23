@@ -59,7 +59,7 @@ function UsersContainer() {
         <div className='flex flex-col w-[calc(100vw-260px)]' >
             <div className='flex flex-row justify-between p-3 rounded-md bg-gray-100 items-center'>
                 <h4 className='text-center font-bold text-[20px]'>Users</h4>
-                <button className='bg-blue-950 text-white p-2 rounded-md' onClick={() => router.push("/users/addUser")}>Add</button>
+                <button className='bg-blue-950 text-white p-2 rounded-md' onClick={() => router.push("/admin/dashboard/users/addUser")}>Add</button>
             </div>
             {UserResponse?.loading? <div className='flex flex-row justify-center items-center'> <BeatLoader color="gray" size={20} /></div>:
 

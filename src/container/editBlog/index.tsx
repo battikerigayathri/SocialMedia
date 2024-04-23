@@ -122,7 +122,7 @@ function EditBlog() {
     }, [getCategoriesResponse.data, getCategoriesResponse.error, getCategoriesResponse.loading])
     useEffect(() => {
         if (craeteBlogResponse?.data) {
-            router.push('/blog')
+            router.push('/admin/dashboard/blog')
         }
         else if (craeteBlogResponse?.error) {
             console.log(craeteBlogResponse?.error, "error")

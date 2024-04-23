@@ -130,7 +130,7 @@ const DragDropCategoriesContainer = () => {
 
     useEffect(() => {
         if (updateCategoriesResponse.data) {
-            router.replace('/category');
+            router.replace('/admin/dashboard/category');
 
         }
     }, [updateCategoriesResponse.data, updateCategoriesResponse.error, updateCategoriesResponse.loading])

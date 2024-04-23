@@ -59,12 +59,12 @@ console.log(disabled,typeof(disabled),"disabled")
     useEffect(() => {
         if (updateUserResponse?.data?.updateUser) {
             console.log(updateUserResponse?.data?.updateUser, "UpdateUser")
-            router.push('/users')
+            router.push('/admin/dashboard/users')
         }
     }, [updateUserResponse])
     useEffect(() => {
         if (deleteUserResponse?.data) {
-            router.push('/users')
+            router.push('/admin/dashboard/users')
         }
     }, [deleteUserResponse])
     const DeleteUser= ()=>{

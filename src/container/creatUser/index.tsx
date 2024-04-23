@@ -33,7 +33,7 @@ function CreatUser() {
     useEffect(() => {
         if (craeteUserResponse?.data) {
             console.log(craeteUserResponse?.data)
-            router.push("/users")
+            router.push("//admin/dashboard/users")
         }
     }, [craeteUserResponse])
 

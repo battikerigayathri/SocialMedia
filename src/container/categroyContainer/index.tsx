@@ -61,11 +61,11 @@ function CategoryContainer() {
     <div className="flex flex-col w-[calc(100vw-260px)]">
       <div className="flex flex-row justify-between p-3 rounded-md bg-gray-100 items-center">
         <h4 className="text-center font-bold text-[20px]">Category</h4>
-        <Link href={`/category/nav-tree`}
+        <Link href={`/admin/dashboard/category/nav-tree`}
           className="">
           <button className="bg-green-700 text-white p-2 rounded-md mr-10" >Category Builder</button>
         </Link>
-        <Link href={`/addcategory`}
+        <Link href={`/admin/dashboard/addcategory`}
           className="">
           <button className="bg-blue-950 text-white p-2 rounded-md">Add</button>
         </Link>
@@ -138,7 +138,7 @@ function CategoryContainer() {
 
                       <td className="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
                         <a
-                          href={`/category/${item?.id}`}
+                          href={`/admin/dashboard/category/${item?.id}`}
                           className="text-indigo-600 hover:text-indigo-900"
                         >
                           View

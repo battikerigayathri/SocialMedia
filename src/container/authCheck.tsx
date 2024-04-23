@@ -17,3 +17,20 @@ const AuthCheck = () => {
 }
 
 export default AuthCheck
+
+export const AuthAdminCheck=()=>{
+    const router = useRouter();
+    useEffect(() => {
+        const token = getCookie('tokenkey');
+        if (!token) {
+            router.replace('/login');
+        }
+        else if(token){
+            router.replace('/admin/dashboard');
+
+        }
+    }, [])
+    return (
+        <></>
+    )
+}

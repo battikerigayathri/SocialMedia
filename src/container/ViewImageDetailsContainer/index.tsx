@@ -94,7 +94,7 @@ const ViewImageDetailsContainer = () => {
 
     useEffect(() => {
         if (updateAssetResponse.data) {
-            router.replace('/media');
+            router.replace('/admin/dashboard/media');
         }
         if (updateAssetResponse.error) {
             console.log("error : ", updateAssetResponse.error);
@@ -109,7 +109,7 @@ const ViewImageDetailsContainer = () => {
             console.log(response);
 
             if (response.ok) {
-                router.push('/media');
+                router.push('/admin/dashboard/media');
             }
 
         } catch (error: any) {

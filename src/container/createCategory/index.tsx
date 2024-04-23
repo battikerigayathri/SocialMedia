@@ -54,7 +54,7 @@ const CreateCategory = () => {
   useEffect(()=>{
     if(data)
       {
-        router.push('/category');
+        router.push('/admin/dashboard/category');
       }
     console.log('myerror',error)
   },[data, error])

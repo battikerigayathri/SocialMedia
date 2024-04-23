@@ -44,7 +44,7 @@ const Login = () => {
   useEffect(() => {
     if (data) {
       setCookie('tokenkey', data.login.token)
-      router.push('/dashboard')
+      router.push('/admin/dashboard')
     };
   }, [data, loading, error])
   return (

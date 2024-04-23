@@ -81,7 +81,7 @@ const Singleviewcat = () => {
 
     useEffect(() => {
         if (updateCatResponse.data) {
-            router.push('/category');
+            router.push('/admin/dashboard/category');
         }
         if (updateCatResponse.error) {
             console.log("error : ", updateCatResponse.error);
@@ -91,7 +91,7 @@ const Singleviewcat = () => {
 
     useEffect(() => {
         if (deletecatResponse.data) {
-            router.push('/category');
+            router.push('/admin/dashboard/category');
         }
         if (deletecatResponse.error) {
             console.log("error : ", deletecatResponse.error);
