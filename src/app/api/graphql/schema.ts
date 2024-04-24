@@ -11,7 +11,7 @@ const typeDefs = `
   type loginResponse{
 msg:String
 token:String
- userAccountExists:Boolean!
+
   }
   type forgetPasswordResponse{
    msg:String
