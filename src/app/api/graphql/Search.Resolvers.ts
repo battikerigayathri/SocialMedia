@@ -3,10 +3,32 @@ import { User } from "./models";
 import { GraphQLError } from "graphql";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import redis from "ioredis"
 import Redis from "ioredis";
 // declare type RedisClientType = import("ioredis").RedisClientType;
 import nodemailer from "nodemailer";
-import { RedisClient } from "./services/redis";
+// import { RedisClient } from "./services/redis";
+const redisClient = new redis();
+async function setValueInRedis(key: any, value: any) {
+  try {
+    await redisClient.set(key, value);
+    // console.log(Set key: ${key} with value: ${value});
+  } catch (error) {
+    console.error("Error setting value in Redis:", error);
+  }
+}
+
+// Get a value from Redis
+async function getValueFromRedis(key: any) {
+  try {
+    const value = await redisClient.get(key);
+    // console.log(Retrieved value for key: ${key} - ${value});
+    return value;
+  } catch (error) {
+    console.error("Error getting value from Redis:", error);
+    return null;
+  }
+}
 const getTransporter = () => {
   return nodemailer.createTransport({
     // Configure your email service provider here
@@ -81,7 +103,7 @@ export default {
           throw new Error("Invalid email");
         }
         const otp = generateVerificationCode();
-        await RedisClient.set(email, otp);
+        await setValueInRedis(email, otp);
         sendVerificationEmail(email, otp + "");
         return {
           msg: "Otp has been sent to your email",
@@ -98,7 +120,7 @@ export default {
       ctx: any
     ) => {
       try {
-        const storedOtp = await RedisClient.get(email);
+        const storedOtp = await getValueFromRedis(email);
         //  console.log(storedOtp, "stored");
         if (storedOtp !== otp.toString()) {
           throw new Error("Invalid OTP");
