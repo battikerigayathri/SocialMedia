@@ -3,6 +3,9 @@ export const Blog = mercury.createModel("Blog", {
   title: {
     type: "string",
   },
+  slug: {
+    type:"string"
+  },
   status: {
     type: "enum",
     enumType: "string",
@@ -13,6 +16,9 @@ export const Blog = mercury.createModel("Blog", {
     ],
     default: "DRAFT"
   },
+  // slug: {
+  //   type: "string",
+  // },
   author: {
     type: "relationship",
     ref: "User"

@@ -17,7 +17,6 @@ export const User = mercury.createModel("User", {
     type: "string",
     required: true,
     unique: true,
-    isEditable: true,
   },
   password: {
     type: "string",
@@ -34,4 +33,5 @@ export const User = mercury.createModel("User", {
     enum: ["ACTIVE", "IN_ACTIVE"],
     default: "IN_ACTIVE",
   },
+  
 });
