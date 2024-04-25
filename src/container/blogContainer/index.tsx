@@ -13,8 +13,8 @@ const BlogContainer = () => {
 const router =useRouter()
   useEffect(() => {
     getBlog(
-`query ListBlogs($limit: Int!) {
-  listBlogs(limit: $limit) {
+`query ListBlogs($limit: Int!,$sort: sortBlogInput) {
+  listBlogs(limit: $limit,sort: $sort) {
     docs {
       id
       title
@@ -47,8 +47,12 @@ const router =useRouter()
     totalDocs
   }
 }`,{
-  "limit": 10
+  "limit": 10,
+  "sort": {
+    "createdOn": "desc"
+  }
 },
+
       {
         cache: "no-store",
       }

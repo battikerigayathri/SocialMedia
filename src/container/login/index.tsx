@@ -6,6 +6,9 @@ import { useLazyQuery } from "@/hook";
 import { serverFetch } from "@/action";
 import { setCookie } from 'cookies-next';
 import { useRouter } from "next/navigation";
+import toast, { Toaster } from 'react-hot-toast';
+import { ClipLoader } from "react-spinners";
+
 const validationSchema = yup.object().shape({
   username: yup.string().required("Username is required"),
   password: yup.string().required("Password is required").min(6, "Password must be at least 6 characters"),
@@ -45,7 +48,10 @@ const Login = () => {
     if (data) {
       setCookie('tokenkey', data.login.token)
       router.push('/admin/dashboard')
-    };
+    }
+    else if(error){
+toast.error(error.message)
+    }
   }, [data, loading, error])
   return (
 
@@ -71,10 +77,23 @@ const Login = () => {
                 ) : null}
                 <div className="mt-5">
                   <button type="submit" className="transition duration-500  bg-blue-950 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
-                    <span className="inline-block mr-2">Login</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 inline-block">
+                    {/* <span className="inline-block mr-2">Login</span> */}
+                    {loading ? (
+                                                <div
+                                                    style={{
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                    }}
+                                                >
+                                                    <ClipLoader size={20} color="#000" />
+                                                </div>
+                                            ) : (
+                                                "Login"
+                                            )}
+                    {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 inline-block">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
+                    </svg> */}
                   </button>
                 </div>
               </div>
@@ -82,7 +101,7 @@ const Login = () => {
             <div className="py-5">
               <div className="grid grid-cols-2 gap-1">
                 <div className="text-center sm:text-left whitespace-nowrap">
-                  <button className="transition duration-200 mx-5 px-5 py-4 cursor-pointer font-normal text-sm rounded-lg text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-200 focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 ring-inset">
+                  <button className="transition duration-200 mx-5 px-5 py-4 cursor-pointer font-normal text-sm rounded-lg text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-200 focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 ring-inset" onClick={()=>router.push("/forgotpassword")}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 inline-block align-text-top">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
                     </svg>
@@ -97,7 +116,7 @@ const Login = () => {
 
         </div>
       </div>
-
+<Toaster/>
     </div>
   )
 }

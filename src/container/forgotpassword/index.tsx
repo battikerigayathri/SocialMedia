@@ -5,6 +5,8 @@ import * as  yup from "yup";
 import { useLazyQuery } from "@/hook";
 import { serverFetch } from "@/action";
 import { useRouter } from "next/navigation";
+import toast, { Toaster } from 'react-hot-toast';
+import { ClipLoader } from "react-spinners";
 
 const validationSchema = yup.object().shape({
   email: yup.string().email().required("Please enter user email"),
@@ -23,14 +25,18 @@ const router =useRouter()
           forgotPawwordFun(
             `mutation ForgetPassword($email: String) {
               forgetPassword(email: $email) {
-                code
                 msg
+                otp
+                email
               }
             }
                   `,
                   {
                     "email": values.email
-                  }
+                  },
+                  {
+                    cache: 'no-store',
+                }
     
     
           )
@@ -39,10 +45,13 @@ const router =useRouter()
 
     useEffect(()=>{
       if(data){
-        router.push("/admin/dashboard/changepassword")
+        toast.success("OTP sended")
+setTimeout(() => {
+  router.push(`/otp?email=${data.forgetPassword.email}`)
+}, 2000);
       }
-      else{
-        
+      else if(error){
+        toast.error(error?.message)
       }
     })
     return(
@@ -74,7 +83,20 @@ const router =useRouter()
         </div> */}
         <div className="mt-5">
         <button type="submit" className="transition duration-500  bg-blue-950 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
-            <span className="inline-block mr-2">Send</span>
+        {loading ? (
+                                                <div
+                                                    style={{
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                    }}
+                                                >
+                                                    <ClipLoader size={20} color="#000" />
+                                                </div>
+                                            ) : (
+                                                "Send"
+                                            )}
+            {/* <span className="inline-block mr-2">Send</span> */}
             {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 inline-block">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg> */}
@@ -90,6 +112,7 @@ const router =useRouter()
 </div>
  
 </div>
+<Toaster/>
 </>
     )
 }
