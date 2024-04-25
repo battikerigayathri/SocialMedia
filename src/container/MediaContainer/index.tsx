@@ -12,8 +12,8 @@ const MediaContainer = () => {
     const [photos, setPhotos] = useState([]);
     useEffect(() => {
         getAllMedia(`
-        query ListAssets($limit: Int!, $where: whereAssetInput) {
-            listAssets(limit: $limit, where: $where) {
+        query ListAssets($limit: Int!, $where: whereAssetInput,$sort: sortAssetInput) {
+            listAssets(limit: $limit, where: $where,sort: $sort) {
               docs {
                 id
                 name
@@ -30,7 +30,10 @@ const MediaContainer = () => {
                 "limit": 500,
                 "where": {
                     "mediaType": "MEDIA"
-                }
+                },
+                "sort": {
+                    "createdOn": "desc"
+                  }
             },
             {
                 cache: "no-store"
