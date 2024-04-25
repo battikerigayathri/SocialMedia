@@ -6,7 +6,11 @@ import * as  yup from "yup";
 import { useLazyQuery } from "@/hook";
 import { serverFetch } from "@/action";
 import { setCookie } from 'cookies-next';
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { error } from "console";
+import toast, { Toaster } from 'react-hot-toast';
+import { ClipLoader } from "react-spinners";
+
 const validationSchema = yup.object().shape({
   password: yup.string().required("Password is required").min(6, "Password must be at least 6 characters"),
   confirmPassword:
@@ -16,7 +20,9 @@ const validationSchema = yup.object().shape({
 });
 
 const ResetPassword = () => {
-  const [loginpage, { data, loading, error }] = useLazyQuery(serverFetch)
+  const currentPath = useSearchParams()
+    console.log(currentPath.get("email"), "pathSegments")
+  const [resetPasswordFun, { data, loading, error }] = useLazyQuery(serverFetch)
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
@@ -27,16 +33,17 @@ const ResetPassword = () => {
     validationSchema: validationSchema,
     onSubmit: values => {
       // alert(JSON.stringify(values, null, 2));
-      loginpage(
-        `mutation ResetPassword($email: String!, $newPassword: String!) {
-            resetPassword(email: $email, newPassword: $newPassword) {
-              msg
-            }
+      resetPasswordFun(
+        `mutation ResetPassword($email: String, $newPassword: String) {
+          resetPassword(email: $email, newPassword: $newPassword) {
+            msg
           }
-              `,
-        {
-          "password": values.password
         }
+              `,
+              {
+                "email": currentPath.get("email"),
+                "newPassword": values.password
+              }
 
 
       )
@@ -45,9 +52,12 @@ const ResetPassword = () => {
 
   useEffect(() => {
     if (data) {
-      setCookie('tokenkey', data.login.token)
+      toast.success("Password changed successfully")
       router.push('/admin/dashboard')
-    };
+    }
+    else if(error){
+toast.error(error.message)
+    }
   }, [data, loading, error])
   return (
 
@@ -73,7 +83,20 @@ const ResetPassword = () => {
                 ) : null}
                 <div className="mt-5">
                   <button type="submit" className="transition duration-500  bg-blue-950 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
-                    <span className="inline-block mr-2">Change password</span>
+                    {/* <span className="inline-block mr-2">Change password</span> */}
+                    {loading ? (
+                                                <div
+                                                    style={{
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                    }}
+                                                >
+                                                    <ClipLoader size={20} color="#000" />
+                                                </div>
+                                            ) : (
+                                                "Change password"
+                                            )}  
                     {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 inline-block">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg> */}
@@ -84,7 +107,7 @@ const ResetPassword = () => {
           </div>
         </div>
       </div>
-
+<Toaster/>
     </div>
   )
 }

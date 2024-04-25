@@ -31,8 +31,8 @@ function CategoryContainer() {
   const router = useRouter();
   useEffect(() => {
     Categorylist(
-      `query ListCategorys {
-        listCategorys {
+      `query ListCategorys($sort: sortCategoryInput) {
+        listCategorys(sort: $sort) {
           docs {
             name
             status
@@ -41,7 +41,12 @@ function CategoryContainer() {
           }
         }
       }
-      `, {
+      `,{
+        "sort": {
+          "createdOn": "desc"
+        }
+      },
+       {
       cache: 'no-store',
     }
     )
