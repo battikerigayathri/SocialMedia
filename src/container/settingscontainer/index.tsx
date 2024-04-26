@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import toast, { Toaster } from 'react-hot-toast';
+import { FaCheckCircle } from "react-icons/fa";
+import { ClipLoader } from 'react-spinners'
 function SettingsContainer() {
     const router = useRouter()
     const [title, setTitle] = useState("")
@@ -15,6 +17,7 @@ function SettingsContainer() {
     const [updateSettingsfun, updateSettingsResponse] = useLazyQuery(serverFetch)
     const [updateSettings, setUpdateSettings] = useState(false)
     const [imgsrc,setimgsrc]=useState('')
+    const [loading,setloading]=useState(false)
 
     useEffect(() => {
         settingsfun(`
@@ -102,6 +105,7 @@ function SettingsContainer() {
         //     }
         // }
         try {
+            setloading(true)
             const formData = new FormData();
             formData.append('file', logo);
             console.log(formData, "sdcfvgbhjn")
@@ -124,13 +128,17 @@ function SettingsContainer() {
             }
             if(response.status === 400) {
                 throw new Error(response.statusText);
+
             }
             const responseData = await response.json();
             console.log(responseData)
             console.log(response,"resp")
                    } catch (e:any) {
+                    setloading(false)
             console.log(e?.message)
             toast.error(e?.message)
+            setloading(false)
+
         }
     }
 
@@ -151,8 +159,8 @@ function SettingsContainer() {
                     <label className="text-sm font-bold text-gray-500 tracking-wide ">Title</label>
                     <input className="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 w-[250px]" type="text" placeholder="Title" onChange={(e) => setTitle(e.target.value)} />
                 </div>
-                <button type="submit" className=" bg-blue-950 rounded-md p-2 text-white font-bold text-sm h-10  text-center" onClick={updateSetttingsFun}>
-                    Update
+                <button type="submit" className=" bg-blue-950 rounded-md p-2 text-white font-bold text-sm h-10  text-center w-[150px]" onClick={updateSetttingsFun}>
+                Update
                 </button>
             </form>
             <div className="mt-8 space-y-3" >
@@ -161,6 +169,19 @@ function SettingsContainer() {
                     <label className="text-sm font-bold text-gray-500 ">Attach Document</label>
                     <div className="flex items-center " >
                         <label className="flex flex-col rounded-lg border-4 border-dashed h-60 p-10 group text-center">
+                            {logo?.name ? <div className="  text-center flex flex-col items-center justify-center   h-[200px] w-[200px]">
+                                {/* <!---<svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-blue-400 group-hover:text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                    </svg>--> */}
+                                <div className="flex flex-auto max-h-48 w-2/5 mx-auto -mt-10" >
+                                    <div className='flex flex-row justify-center items-center ml-4'>
+                                <FaCheckCircle size={60} color='green'/>
+                                </div>
+                                    {/* <img className="has-mask h-36 object-center" src="https://img.freepik.com/free-vector/image-upload-concept-landing-page_52683-27130.jpg?size=338&ext=jpg" alt="freepik image" /> */}
+                                </div>
+                                <p className="pointer-none text-gray-500 "><span className="text-sm">{logo?.name}</span> </p>
+                            </div>
+:
                             <div className="h-full  text-center flex flex-col items-center justify-center   ">
                                 {/* <!---<svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-blue-400 group-hover:text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
@@ -169,7 +190,7 @@ function SettingsContainer() {
                                     <img className="has-mask h-36 object-center" src="https://img.freepik.com/free-vector/image-upload-concept-landing-page_52683-27130.jpg?size=338&ext=jpg" alt="freepik image" />
                                 </div>
                                 <p className="pointer-none text-gray-500 "><span className="text-sm">Drag and drop</span> files here <br /> </p>
-                            </div>
+                            </div>}
                             <input type="file" className="hidden" onChange={(e) => setLogo(e.target.files[0])} />
                         </label>
                     </div>
@@ -178,8 +199,21 @@ function SettingsContainer() {
                     <span>File type: png</span>
                 </p>
                 <div>
-                    <button className=" bg-blue-950 rounded-md p-2 text-white font-bold text-sm h-10  text-center" onClick={() => updateFile()}>
-                        Upload
+                    <button className=" bg-blue-950 rounded-md p-2 text-white font-bold text-sm h-10  text-center w-[150px]" onClick={() => updateFile()}>
+                    {loading ? (
+                                                <div
+                                                    style={{
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                    }}
+                                                >
+                                                    <ClipLoader size={20} color="#000" />
+                                                </div>
+                                            ) : (
+                                                "Upload"
+                                            )}
+                        
                     </button>
                 </div>
                 
