@@ -7,6 +7,9 @@ import { useLazyQuery } from '@/hook';
 import { serverFetch } from '@/action';
 import { BeatLoader, ClipLoader } from 'react-spinners';
 import Link from 'next/link';
+import toast, { Toaster } from 'react-hot-toast';
+import { error } from 'console';
+
 function ViewUser() {
     const [loading, setLoading] = useState(false)
 
@@ -55,16 +58,30 @@ function ViewUser() {
         if (getUserResponse?.data?.getUser) {
             console.log(getUserResponse?.data?.getUser, "user")
         }
+        else if(getUserResponse?.error){
+            toast.error("Something wnt wrong")
+
+        }
     }, [getUserResponse])
     useEffect(() => {
         if (updateUserResponse?.data?.updateUser) {
             console.log(updateUserResponse?.data?.updateUser, "UpdateUser")
+            toast.success("Updated successfully")
             router.push('/admin/dashboard/users')
+        }
+        else if(updateUserResponse?.error){
+            toast.error("Something wnt wrong")
+
         }
     }, [updateUserResponse])
     useEffect(() => {
         if (deleteUserResponse?.data) {
+            toast.success("Deleted successfully")
             router.push('/admin/dashboard/users')
+        }
+        else if(deleteUserResponse?.error){
+            toast.error("Something wnt wrong")
+
         }
     }, [deleteUserResponse])
     const DeleteUser = () => {
@@ -260,7 +277,7 @@ mutation DeleteUser($deleteUserId: ID!) {
                                         </div>
                                         <div className='flex flex-row gap-y-5 gap-x-5 flex-wrap justify-center'>
                                             {currentPath.get("edit") == "true" ?
-                                                <button type="submit" className=" bg-blue-950 rounded-md p-2 text-white font-bold text-sm h-10 w-[200px]"> {loading ? (
+                                                <button type="submit" className=" bg-blue-950 rounded-md p-2 text-white font-bold text-sm h-10 w-[200px]"> {updateUserResponse?.loading ? (
                                                     <div
                                                         style={{
                                                             display: "flex",
@@ -277,7 +294,7 @@ mutation DeleteUser($deleteUserId: ID!) {
                                                 </div>}
                                             <div className=" bg-[gray] flex flex-row justify-center rounded-md p-2 w-[200px] text-white font-bold text-sm h-10 cursor-pointer" onClick={() => router.back()}> Cancel</div>
 
-                                            <button type="submit" className=" bg-red-700 rounded-md p-2 text-white font-bold text-sm h-10 w-[200px]" onClick={() => DeleteUser()}> {loading ? (
+                                            <button type="submit" className=" bg-red-700 rounded-md p-2 text-white font-bold text-sm h-10 w-[200px]" onClick={() => DeleteUser()}> {deleteUserResponse?.loading ? (
                                                 <div
                                                     style={{
                                                         display: "flex",
@@ -298,6 +315,7 @@ mutation DeleteUser($deleteUserId: ID!) {
                         </Formik>
                     </div>}
             </div>
+            <Toaster/>
         </div>
 
     )

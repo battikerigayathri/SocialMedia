@@ -254,7 +254,7 @@ function CreatUser() {
                                         </div>
                                         <div className='flex flex-row justify-center gap-5'>
 
-                                        <button type="submit" className=" bg-blue-950 rounded-md p-2 w-[200px] text-white font-bold text-sm h-10"> {loading ? (
+                                        <button type="submit" className=" bg-blue-950 rounded-md p-2 w-[200px] text-white font-bold text-sm h-10"> {craeteUserResponse?.loading ? (
                                                 <div
                                                     style={{
                                                         display: "flex",
