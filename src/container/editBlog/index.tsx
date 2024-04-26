@@ -10,6 +10,7 @@ import '@mdxeditor/editor/style.css'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { compressBase64ToJson, compressJsonToBase64 } from '@/utils/methods'
 import ImageSelector from '../creatBlog/ImageSelector'
+import toast, { Toaster } from 'react-hot-toast';
 
 function EditBlog() {
     const [craeteBlogfun, craeteBlogResponse] = useLazyQuery(serverFetch)
@@ -126,6 +127,8 @@ function EditBlog() {
         }
         else if (craeteBlogResponse?.error) {
             console.log(craeteBlogResponse?.error, "error")
+            toast.error(craeteBlogResponse?.error.message)
+
         }
     }, [craeteBlogResponse?.data, craeteBlogResponse?.error])
     useEffect(() => {
@@ -136,6 +139,10 @@ function EditBlog() {
             setCategoryary(getblogResponse?.data.getBlog?.category.map((item: any) => item.id))
             mdxEditorRef.current?.setMarkdown(compressBase64ToJson(getblogResponse?.data.getBlog?.content))
             setSelectedAssetId(getblogResponse?.data.getBlog?.thumbnail.id)
+        }
+        else if(getblogResponse?.error){
+            toast.error(getblogResponse?.error.message)
+
         }
     }, [getblogResponse?.data, getblogResponse?.loading, getblogResponse?.error])
     console.log(categoryary, "keywordsstrkeywordsstr")
@@ -492,6 +499,7 @@ function EditBlog() {
                 </div >
 
             </div >
+            <Toaster/>
         </div >)
 }
 
