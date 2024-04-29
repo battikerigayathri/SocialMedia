@@ -4,6 +4,7 @@ import { useLazyQuery } from '@/hook'
 import { useFormik } from 'formik'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import { ClipLoader } from 'react-spinners'
 import * as Yup from 'yup';
 
 const Singleviewcat = () => {
@@ -189,7 +190,19 @@ const Singleviewcat = () => {
                         :
                         <div className='flex w-fit justify-center items-center gap-5'>
                             <button type="submit" onClick={handleUpdate} className="transition duration-500 bg-blue-950 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-[200px] py-2.5 px-8 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
-                                <span className="inline-block mr-2">Update</span>
+                            {updateCatResponse.loading ? (
+                                                <div
+                                                    style={{
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                    }}
+                                                >
+                                                    <ClipLoader size={20} color="#000" />
+                                                </div>
+                                            ) : (
+                                                "Update"
+                                            )}
                                 {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 inline-block">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                 </svg> */}
@@ -197,7 +210,19 @@ const Singleviewcat = () => {
                             <div  className=" bg-[gray] flex flex-row justify-center rounded-md p-2 w-[200px] text-white font-bold text-sm h-10 cursor-pointer" onClick={()=>router.back()}> Cancel</div>
 
                             <button type='button' onClick={handleDelete} className="transition duration-500 bg-red-700 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-[200px] py-2.5 px-8 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
-                                <span className="inline-block mr-2">Delete</span>
+                            {deletecatResponse.loading ? (
+                                                <div
+                                                    style={{
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                    }}
+                                                >
+                                                    <ClipLoader size={20} color="#000" />
+                                                </div>
+                                            ) : (
+                                                "Delete"
+                                            )} 
                                 {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 inline-block">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                 </svg> */}
