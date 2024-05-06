@@ -217,13 +217,14 @@ const Clientblogview = () => {
     return `${month}-${year}`;
   }
 
+  
   return (
     <div className="p-3 flex flex-row bg-gray-100 gap-2 ">
       <div className="w-[100%] justify-center items-center">
-        <div className="w-[100%] flex flex-row gap-4 bg-white rounded-md  justify-center items-start">
+        <div className="w-[100%] flex flex-row gap-4 bg-white rounded-md  justify-center items-start sm:flex-col">
           <div className="relative group hover:scale-105 ease-in duration-300 md:flex flex-row justify-center w-[100%] ">
             <Link href={mylatestblogs?.data?.listBlogs.docs[0].slug || "#"} className="w-[100%]">
-              <div className=" w-max h-[400px] shadow-sm">
+              <div className=" h-[400px] sm:h-auto shadow-sm w-auto">
                 <div className="absolute top-2 left-2">
                   <text className=" bg-gray-700 font-sm text-white rounded-md p-1 bg-opacity-75">
                     {mylatestblogs?.data?.listBlogs.docs[0]?.title}
@@ -266,7 +267,7 @@ const Clientblogview = () => {
         <div className="p-5">
           <h3>Latest Posts</h3>
         </div>
-        <div className="grid grid-cols-3">
+        <div className="grid grid-cols-3 sm:grid-cols-1">
           {mypinposts?.data?.listBlogs.docs.map((item: any, index: any) => (
             <Link href={item.slug || "#"}>
               <div className="w-[100%] h-[450px] justify-center items-center border-gray-500 bg-white rounded-md relative group hover:scale-105 ease-in duration-200">
@@ -308,7 +309,7 @@ const Clientblogview = () => {
           ))}
         </div>
       </div>
-      <div className="flex flex-col gap-5 ">
+      <div className="flex flex-col gap-5 sm:hidden ">
         <div className="border-gray-400  w-[240px] h-[400px] p-3 bg-white rounded-md ">
           <text>Featured Posts</text>
           {data?.listBlogs.docs.map((item: any, index: number) => {
