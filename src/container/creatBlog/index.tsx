@@ -9,7 +9,17 @@ import dynamic from 'next/dynamic'
 import { MDXEditorMethods, MDXEditorProps } from '@mdxeditor/editor'
 import { useRouter } from 'next/navigation'
 import { compressJsonToBase64 } from '@/utils/methods'
+import { DropdownMenu } from '@/components/dropdown'
+interface Item {
 
+    name: string;
+    subCategory?: Item[];
+    id?:string;
+}
+
+interface DropdownMenuProps {
+    jsonData: Item[];
+}
 function CreatBlog() {
     const [craeteBlogfun, craeteBlogResponse] = useLazyQuery(serverFetch)
     const [getCategories, getCategoriesResponse] = useLazyQuery(serverFetch);
@@ -49,14 +59,36 @@ function CreatBlog() {
     }
     useEffect(() => {
         getCategories(
-            `query ListCategorys($where: whereCategoryInput, $limit: Int!) {
-                listCategorys(where: $where, limit: $limit) {
+            `query ListCategorys($where: whereCategoryInput) {
+                listCategorys(where: $where) {
                   docs {
                     id
                     name
                     status
+                    subCategory {
+                      id
+                      name
+                      status
+                      subCategory {
+                        id
+                        name
+                        status
+                        subCategory {
+                            id
+                            name
+                            status
+                            createdOn
+                            updatedOn
+                          }
+                        createdOn
+                        updatedOn
+                      }
+                      createdOn
+                      updatedOn
+                    }
+                    createdOn
+                    updatedOn
                   }
-                  limit
                 }
               }`,
             {
@@ -72,6 +104,7 @@ function CreatBlog() {
     }, [])
     useEffect(() => {
         if (getCategoriesResponse.data) {
+            console.log(getCategoriesResponse.data?.listCategorys?.docs,"asdfghjkuytr")
         }
     }, [getCategoriesResponse.data, getCategoriesResponse.error, getCategoriesResponse.loading])
     useEffect(() => {
@@ -79,6 +112,16 @@ function CreatBlog() {
             router.push('/admin/dashboard/blog')
         }
     }, [craeteBlogResponse?.data])
+
+    const generateDropdownOptions = (data: Item[], level: number = 0) => {
+        const dashes = Array(level).fill('-').join(''); // Create dashes based on the level
+        return data?.map(item => (
+            <React.Fragment key={item.id}>
+                <option value={item.id}>{dashes} {item.name}</option>
+                {item.subCategory&& generateDropdownOptions(item.subCategory, level + 1)}
+            </React.Fragment>
+        ));
+    };
     return (
         <div className='flex flex-col w-[calc(100vw-260px)] gap-5'>
             {
@@ -278,14 +321,17 @@ function CreatBlog() {
                                                         <option value="" disabled selected>
                                                             Select a status
                                                         </option>
-                                                        {getCategoriesResponse.data?.listCategorys?.docs.map((cat: any) => {
+                                                        {/* {getCategoriesResponse.data?.listCategorys?.docs.map((cat: any) => {
                                                             return (
                                                                 <option value={cat.id}  >
                                                                     {cat.name}
                                                                 </option>
                                                             )
-                                                        })}
+                                                        })} */}
+                                                                    {generateDropdownOptions(getCategoriesResponse.data?.listCategorys?.docs)}
+
                                                     </select>
+                                                    {/* <DropdownMenu {...field} jsonData={getCategoriesResponse.data?.listCategorys?.docs}/> */}
                                                 </div>
                                             )}
                                         </Field>
