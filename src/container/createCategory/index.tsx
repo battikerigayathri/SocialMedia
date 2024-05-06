@@ -6,6 +6,7 @@ import { useLazyQuery } from '@/hook';
 import { serverFetch } from "@/action";
 import { Router } from "next/router";
 import { useRouter } from "next/navigation";
+import { ClipLoader } from "react-spinners";
 
 const validationSchema = yup.object().shape({
   catname: yup.string().required("catname is required"),
@@ -125,7 +126,19 @@ const MakeCategory=()=>{
       </div>
         <div className="mt-5 pl-5 pr-5 flex flex-row gap-5">
         <button type="submit" className="transition duration-500  bg-blue-950 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-[200px] py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
-            <span className="inline-block mr-2">Submit</span>
+        {loading ? (
+                                                <div
+                                                    style={{
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                    }}
+                                                >
+                                                    <ClipLoader size={20} color="#000" />
+                                                </div>
+                                            ) : (
+                                                "Submit"
+                                            )} 
             {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 inline-block">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg> */}
@@ -135,12 +148,7 @@ const MakeCategory=()=>{
         </div>
         </form>
                                 </div>
-                        
-
-                              
                             </tr>
-                                            
-
                 </tbody>
             </table>
         </div>

@@ -1,10 +1,12 @@
 "use client"
 import { useFormik } from 'formik'
 import { useRouter } from 'next/navigation';
-import React from 'react'
+import React, { useState } from 'react'
+import { ClipLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
 const AddMediaContainer = () => {
+    const [loading,setLoading]=useState(false)
     const router = useRouter();
     const formik = useFormik({
         enableReinitialize: true,
@@ -30,6 +32,7 @@ const AddMediaContainer = () => {
         }),
         onSubmit: async (values: any) => {
             try {
+                setLoading(true)
                 const formData = new FormData();
                 Object.keys(values).forEach((key) => {
                     formData.append(key, values[key]);
@@ -42,14 +45,20 @@ const AddMediaContainer = () => {
 
                 console.log(response);
                 if(response.status === 400) {
+                setLoading(false)
+
                     throw new Error(response.statusText);
                 }
                 const responseData = await response.json();
-                if(responseData.status){
-                    router.replace('/admin/dashboard/media');
+                if(response.status){
+                setLoading(false)
+
+                    router.push('/admin/dashboard/media');
                 }
 
             } catch (error) {
+                setLoading(false)
+
                 console.error('Error:', error);
             }
         }
@@ -101,7 +110,19 @@ const AddMediaContainer = () => {
                 </div>
                 <div className="mt-5 pl-5 pr-5 flex flex-row gap-5">
                     <button type="submit" className="transition duration-500 w-[200px] bg-blue-950 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white py-2.5 px-8 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
-                        <span className="inline-block mr-2">Upload</span>
+                    {loading ? (
+                                                <div
+                                                    style={{
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                    }}
+                                                >
+                                                    <ClipLoader size={20} color="#000" />
+                                                </div>
+                                            ) : (
+                                                "Upload"
+                                            )}
                         {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 inline-block">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg> */}
