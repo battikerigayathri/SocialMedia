@@ -188,7 +188,7 @@ const Clientblogview = () => {
     }
   }, [mylatestblogs.loading, mylatestblogs.data, mylatestblogs.error]);
 
-  function formatDate({ createdon }: { createdon: any }) {
+  function formatDate({ createdon }:{ createdon: any }) {
     console.log(createdon, "sdf");
     const date = new Date(createdon);
     const day = String(date.getDate()).padStart(2, "0");
@@ -218,19 +218,19 @@ const Clientblogview = () => {
   }
 
   return (
-    <div className="p-5 flex flex-row bg-gray-100 gap-2  ">
-      <div>
-        <div className="flex flex-row gap-4 bg-white rounded-md ">
-          <div className="relative group hover:scale-105 ease-in duration-300 md:flex flex-row justify-center">
-            <Link href={mylatestblogs?.data?.listBlogs.docs[0].slug || "#"}>
-              <div className=" w-[650px] h-[400px] shadow-sm">
+    <div className="p-3 flex flex-row bg-gray-100 gap-2 ">
+      <div className="w-[100%] justify-center items-center">
+        <div className="w-[100%] flex flex-row gap-4 bg-white rounded-md  justify-center items-start">
+          <div className="relative group hover:scale-105 ease-in duration-300 md:flex flex-row justify-center w-[100%] ">
+            <Link href={mylatestblogs?.data?.listBlogs.docs[0].slug || "#"} className="w-[100%]">
+              <div className=" w-max h-[400px] shadow-sm">
                 <div className="absolute top-2 left-2">
                   <text className=" bg-gray-700 font-sm text-white rounded-md p-1 bg-opacity-75">
                     {mylatestblogs?.data?.listBlogs.docs[0]?.title}
                   </text> 
                 </div>
                 <Image
-                  className=" w-full h-full object-center"
+                  className=" w-full h-[100%]  object-center"
                   src={mylatestblogs?.data?.listBlogs?.docs[0]?.thumbnail?.path}
                   alt="image"
                   height={1000}
@@ -239,26 +239,28 @@ const Clientblogview = () => {
               </div>
             </Link>
           </div>
-          <div className=" flex flex-wrap relative group hover:scale-105 ease-in duration-300 ">
+          <div className="flex flex-wrap gap-2 w-full justify-center items-center">
+          <div className=" flex flex-wrap relative gap-2 group  w-full justify-center items-center ">
             {mylatestblogs?.data?.listBlogs.docs
               ?.slice(1)
               .map((item: any, index: any) => (
                 <Link
                   href={item.slug || "#"}
-                  className="w-[300px] h-[200px] object-fill shadow-sm  text-left "
+                  className="w-[100%] h-[200px] object-fill shadow-sm  text-left "
                 >
                   <text className=" absolute bg-gray-700 font-sm text-white rounded-md p-1 bg-opacity-75 top-2 left-2">
-                    {mylatestblogs?.data?.listBlogs.docs[1]?.title}
+                    {item?.title}
                   </text>
                   <Image
-                    className=" w-full h-full object-center"
-                    src={mylatestblogs?.data?.listBlogs?.docs[0]?.thumbnail?.path}
+                    className=" w-[100%]  h-full object-center hover:scale-105 ease-in duration-300"
+                    src={item?.thumbnail?.path}
                     alt="image"
                     height={1000}
                     width={1000}
                   />
                 </Link>
               ))}
+          </div>
           </div>
         </div>
         <div className="p-5">
@@ -267,10 +269,10 @@ const Clientblogview = () => {
         <div className="grid grid-cols-3">
           {mypinposts?.data?.listBlogs.docs.map((item: any, index: any) => (
             <Link href={item.slug || "#"}>
-              <div className="w-[280px] h-[450px] border-gray-500 bg-white rounded-md relative group hover:scale-105 ease-in duration-200">
+              <div className="w-[100%] h-[450px] justify-center items-center border-gray-500 bg-white rounded-md relative group hover:scale-105 ease-in duration-200">
                 <div>
                   <Image
-                    className=" w-80 h-60 object-center"
+                    className=" w-[100%] h-60 object-center hover:scale-105 ease-in duration-300"
                     src={item?.thumbnail?.path}
                     alt="image"
                     height={1000}
@@ -301,12 +303,13 @@ const Clientblogview = () => {
                   </div>
                 </div>
               </div>
+              
             </Link>
           ))}
         </div>
       </div>
       <div className="flex flex-col gap-5 ">
-        <div className="border-gray-400  w-[260px] h-[400px] p-3 bg-white rounded-md">
+        <div className="border-gray-400  w-[240px] h-[400px] p-3 bg-white rounded-md ">
           <text>Featured Posts</text>
           {data?.listBlogs.docs.map((item: any, index: number) => {
             console.log(item, "item");
@@ -315,17 +318,17 @@ const Clientblogview = () => {
                 href={item.slug || "#"}
                 className="flex flex-row  border-gray-500  gap-2 mt-2"
               >
-                <div className="w-[140px] h-[80px] border-[1px]">
+                <div className="w-[340px] h-[80px] border-[1px]">
                   <Image
-                    className=" w-full h-full object-center"
-                    src={item?.thumbnail?.path}
+                    className=" w-full h-full object-center object-cover"
+                    src={item.thumbnail?.path}
                     alt="image"
                     height={70}
                     width={100}
                   />
                 </div>
-                <div className="flex flex-col gap-[1px]">
-                  <text className="font-light">{item?.title}</text>
+                <div className="flex flex-col gap-[1px] w-full">
+                  <text className="font-light font-sm">{item?.title}</text>
                   {/* <text className="font-light text-sm">
                     {item?.author?.firstName
                       ? item?.author?.firstName
@@ -342,7 +345,7 @@ const Clientblogview = () => {
           })}
         </div>
 
-        <div className="border-gray-400 bg-white rounded-md w-[260px] h-[250px] p-3">
+        <div className="border-gray-400 bg-white rounded-md  h-[250px] p-3">
           <text>Archives</text>
           <div>
             {data?.listBlogs.docs.map((item: any, index: number) => {

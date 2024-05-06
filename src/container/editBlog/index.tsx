@@ -138,7 +138,7 @@ function EditBlog() {
             setKeywordsstr(getblogResponse?.data.getBlog?.keywords.join(','))
             setCategoryary(getblogResponse?.data.getBlog?.category.map((item: any) => item.id))
             mdxEditorRef.current?.setMarkdown(compressBase64ToJson(getblogResponse?.data.getBlog?.content))
-            setSelectedAssetId(getblogResponse?.data.getBlog?.thumbnail.id)
+            setSelectedAssetId(getblogResponse?.data.getBlog?.thumbnail?.id)
         }
         else if(getblogResponse?.error){
             toast.error(getblogResponse?.error.message)
