@@ -340,7 +340,7 @@ const Clientblogview = () => {
                       ? formatDate({ createdon: item?.createdOn })
                       : "no date"} */}
                   {/* </text> */}
-                </div>
+                </div> 
               </Link>
             );
           })}

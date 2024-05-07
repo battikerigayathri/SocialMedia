@@ -13,7 +13,7 @@ import ImageSelector from '../creatBlog/ImageSelector'
 import toast, { Toaster } from 'react-hot-toast';
 
 function EditBlog() {
-    const [craeteBlogfun, craeteBlogResponse] = useLazyQuery(serverFetch)
+    const [updateBlogfun, updateBlogResponse] = useLazyQuery(serverFetch)
     const [getCategories, getCategoriesResponse] = useLazyQuery(serverFetch);
     const [getblog, getblogResponse] = useLazyQuery(serverFetch);
     const [selectedAssetId, setSelectedAssetId] = useState('');
@@ -122,15 +122,19 @@ function EditBlog() {
         }
     }, [getCategoriesResponse.data, getCategoriesResponse.error, getCategoriesResponse.loading])
     useEffect(() => {
-        if (craeteBlogResponse?.data) {
-            router.push('/admin/dashboard/blog')
+        if (updateBlogResponse?.data) {
+            toast.success('Blog updated')
+            setTimeout(()=>{
+                router.push('/admin/dashboard/blog')
+
+            },2000)
         }
-        else if (craeteBlogResponse?.error) {
-            console.log(craeteBlogResponse?.error, "error")
-            toast.error(craeteBlogResponse?.error.message)
+        else if (updateBlogResponse?.error) {
+            console.log(updateBlogResponse?.error, "error")
+            toast.error(updateBlogResponse?.error.message)
 
         }
-    }, [craeteBlogResponse?.data, craeteBlogResponse?.error])
+    }, [updateBlogResponse?.data, updateBlogResponse?.error])
     useEffect(() => {
         if (getblogResponse?.data) {
             console.log(getblogResponse.data?.getBlog?.pin, "enter")
@@ -157,7 +161,7 @@ function EditBlog() {
             </div> */}
             <div className="shadow-md rounded-b-lg ">
                 <div className='bg-black h-10 rounded-t-lg flex flex-col justify-center font-medium p-2 text-white'>
-                    Creat Blog
+                    Update Blog
                 </div>
                 <div className='flex flex-row justify-center items-center align-middle p-3  pt-10' style={{ overflowY: "auto", overflowX: "hidden" }}>
                     <Formik
@@ -170,7 +174,7 @@ function EditBlog() {
                             console.log(values, "values", selectedAssetId)
 
                             try {
-                                craeteBlogfun(`
+                                updateBlogfun(`
                                 mutation UpdateBlog($input: updateBlogInput!) {
                                     updateBlog(input: $input) {
                                       id
@@ -473,7 +477,7 @@ function EditBlog() {
                                     </div>
                                     <div className='flex flex-row gap-y-5 gap-x-5 flex-wrap justify-center'>
 
-                                        <button type="submit" className=" bg-blue-950 rounded-md p-2 text-white font-bold text-sm h-10 w-[200px]"> {craeteBlogResponse?.loading ? (
+                                        <button type="submit" className=" bg-blue-950 rounded-md p-2 text-white font-bold text-sm h-10 w-[200px]"> {updateBlogResponse?.loading ? (
                                             <div
                                                 style={{
                                                     display: "flex",

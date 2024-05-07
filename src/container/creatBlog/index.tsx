@@ -9,7 +9,8 @@ import dynamic from 'next/dynamic'
 import { MDXEditorMethods, MDXEditorProps } from '@mdxeditor/editor'
 import { useRouter } from 'next/navigation'
 import { compressJsonToBase64 } from '@/utils/methods'
-
+import * as Yup from 'yup';
+import toast, { Toaster } from 'react-hot-toast';
 function CreatBlog() {
     const [craeteBlogfun, craeteBlogResponse] = useLazyQuery(serverFetch)
     const [getCategories, getCategoriesResponse] = useLazyQuery(serverFetch);
@@ -76,9 +77,22 @@ function CreatBlog() {
     }, [getCategoriesResponse.data, getCategoriesResponse.error, getCategoriesResponse.loading])
     useEffect(() => {
         if (craeteBlogResponse?.data) {
-            router.push('/admin/dashboard/blog')
+            toast.success('New Blog Created successfully')
+            setTimeout(()=>{
+                router.push('/admin/dashboard/blog')
+            },2000)
         }
     }, [craeteBlogResponse?.data])
+
+    const validationSchema=Yup.object().shape({
+        title:Yup.string().required('Title is Required'),
+        metaTitle:Yup.string().required('Meta Title is required'),
+        status:Yup.string().required('status is Required'),
+        metaDescription: Yup.string().required('Meta Description is required'),
+        description: Yup.string().required('Description is required'),
+        category: Yup.array().min(1, 'Please select at least one category'),
+        keywords: Yup.array().min(1, 'Please enter at least one keyword').of(Yup.string().required()),
+    });
     return (
         <div className='flex flex-col w-[calc(100vw-260px)] gap-5'>
             {
@@ -97,10 +111,11 @@ function CreatBlog() {
                         initialValues={{
                             author: '', category: [], description: '', featured: false, keywords: [], metaDescription: '', metaTitle: '', pin: false, thumbnail: '', title: '', status: '',
                         }}
-                        // validationSchema={validationSchema}
+                        validationSchema={validationSchema}
                         enableReinitialize={true}
                         onSubmit={async (values, { resetForm }) => {
                             console.log(values, "values", selectedAssetId)
+                            
                             try {
                                 craeteBlogfun(`
                                         mutation CreateBlog($input: BlogInput!) {
@@ -150,7 +165,6 @@ function CreatBlog() {
                                 }, {
                                     cache: 'no-store',
                                 })
-
                             } catch (e) {
                                 console.log(e)
 
@@ -423,6 +437,7 @@ function CreatBlog() {
                 </div >
 
             </div >
+            <Toaster/>
         </div >)
 }
 

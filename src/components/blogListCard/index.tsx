@@ -31,11 +31,16 @@ const BlogListCard = ({
   const router = useRouter();
 
   const handleBlogDelete = () => {
+    const confirm=window.confirm("are sure to delete.")
+    if(confirm==true){
+    toast.success('Deleted Successfully.')
     deleteBlog(`mutation DeleteBlog($deleteBlogId: ID!) {
       deleteBlog(id: $deleteBlogId)
     }`, {
       deleteBlogId: id,
     });
+  }
+    
   };
 
   useEffect(() => {
@@ -116,7 +121,7 @@ const BlogListCard = ({
           </div>
         </div>
       </div>
-      {/* <Toaster /> */}
+      <Toaster />
 
     </div>
   );
