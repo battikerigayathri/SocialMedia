@@ -219,7 +219,7 @@ const Clientblogview = () => {
 
   
   return (
-    <div className="p-3 flex flex-row bg-gray-100 gap-2 ">
+    <div className="p-3 flex flex-row bg-gray-100 gap-2 sm:flex-col ">
       <div className="w-[100%] justify-center items-center">
         <div className="w-[100%] flex flex-row gap-4 bg-white rounded-md  justify-center items-start sm:flex-col">
           <div className="relative group hover:scale-105 ease-in duration-300 md:flex flex-row justify-center w-[100%] ">
@@ -309,8 +309,8 @@ const Clientblogview = () => {
           ))}
         </div>
       </div>
-      <div className="flex flex-col gap-5 sm:hidden ">
-        <div className="border-gray-400  w-[240px] h-[400px] p-3 bg-white rounded-md ">
+      <div className="flex flex-col gap-5 ">
+        <div className="border-gray-400  w-[240px] sm:w-full sm:h-auto h-[400px] p-3 bg-white rounded-md ">
           <text>Featured Posts</text>
           {data?.listBlogs.docs.map((item: any, index: number) => {
             console.log(item, "item");
@@ -346,7 +346,7 @@ const Clientblogview = () => {
           })}
         </div>
 
-        <div className="border-gray-400 bg-white rounded-md  h-[250px] p-3">
+        <div className="border-gray-400 bg-white rounded-md sm:h-auto  h-[250px] p-3">
           <text>Archives</text>
           <div>
             {data?.listBlogs.docs.map((item: any, index: number) => {
