@@ -12,6 +12,16 @@ import { compressBase64ToJson, compressJsonToBase64 } from '@/utils/methods'
 import ImageSelector from '../creatBlog/ImageSelector'
 import toast, { Toaster } from 'react-hot-toast';
 
+
+interface Item {
+    name: string;
+    subCategory?: Item[];
+    id?: string;
+  }
+  
+  interface DropdownMenuProps {
+    jsonData: Item[];
+  }
 function EditBlog() {
     const [updateBlogfun, updateBlogResponse] = useLazyQuery(serverFetch)
     const [getCategories, getCategoriesResponse] = useLazyQuery(serverFetch);
@@ -58,25 +68,50 @@ function EditBlog() {
     }
     useEffect(() => {
         getCategories(
-            `query ListCategorys($where: whereCategoryInput, $limit: Int!) {
-                listCategorys(where: $where, limit: $limit) {
+            `query ListCategorys($where: whereCategoryInput) {
+                listCategorys(where: $where) {
                   docs {
                     id
                     name
                     status
+                    subCategory {
+                      id
+                      name
+                      status
+                      subCategory {
+                        id
+                        name
+                        status
+                        subCategory {
+                            id
+                            name
+                            status
+                            createdOn
+                            updatedOn
+                          }
+                        createdOn
+                        updatedOn
+                      }
+                      createdOn
+                      updatedOn
+                    }
+                    createdOn
+                    updatedOn
                   }
-                  limit
                 }
               }`,
-            {
-                "where": {
-                    "status": "ACTIVE"
-                },
-                "limit": 100
-            },
-            {
-                cache: "no-store"
-            }
+      {
+        where: {
+          status: "ACTIVE",
+          parent: {
+            is: null,
+          },
+        },
+        limit: 100,
+      },
+      {
+        cache: "no-store",
+      }
         )
         getblog(
             `query GetBlog($where: whereBlogInput!) {
@@ -150,6 +185,19 @@ function EditBlog() {
         }
     }, [getblogResponse?.data, getblogResponse?.loading, getblogResponse?.error])
     console.log(categoryary, "keywordsstrkeywordsstr")
+
+    const generateDropdownOptions = (data: Item[], level: number = 0) => {
+        const dashes = Array(level).fill("-").join(""); // Create dashes based on the level
+        return data?.map((item) => (
+          <React.Fragment key={item.id}>
+            <option value={item.id}>
+              {dashes} {item.name}
+            </option>
+            {item.subCategory &&
+              generateDropdownOptions(item.subCategory, level + 1)}
+          </React.Fragment>
+        ));
+      };
     return (
         <div className='flex flex-col w-[calc(100vw-240px)] gap-5 ' style={{ overflowY: "auto", overflowX: "hidden" }}>
             {
@@ -358,13 +406,16 @@ function EditBlog() {
                                                         <option value="" disabled selected>
                                                             Select a status
                                                         </option>
-                                                        {getCategoriesResponse.data?.listCategorys?.docs.map((cat: any) => {
+                                                        {/* {getCategoriesResponse.data?.listCategorys?.docs.map((cat: any) => {
                                                             return (
                                                                 <option value={cat.id}  >
                                                                     {cat.name}
                                                                 </option>
                                                             )
-                                                        })}
+                                                        })} */}
+                                                         {generateDropdownOptions(
+                              getCategoriesResponse.data?.listCategorys?.docs
+                            )}
                                                     </select>
                                                 </div>
                                             )}
