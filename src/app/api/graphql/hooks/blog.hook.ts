@@ -7,7 +7,7 @@ mercury.hook.before("CREATE_BLOG_RECORD", function (this: any) {
     .toString()
     .toLowerCase()
     .replaceAll(" ", "-");
-  slug.toString().toLowerCase().replace(/[^a-z0-9-]/g, '');
+  slug = slug.toString().toLowerCase().replace(/[^a-z0-9-]/g, '');
   this.options.args.input.slug = slug;
 });
 
@@ -18,7 +18,7 @@ mercury.hook.before("UPDATE_BLOG_RECORD", function (this: any) {
       .toString()
       .toLowerCase()
       .replaceAll(" ", "-");
-    slug.toString().toLowerCase().replace(/[^a-z0-9-]/g, '');
+    slug = slug.toString().toLowerCase().replace(/[^a-z0-9-]/g, '');
     this.options.args.input.slug = slug;
   }
 });
