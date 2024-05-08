@@ -76,9 +76,11 @@ const page = async ({ params }: { params: { blogSlug: string } }) => {
         }
     );
 
+    console.log(blogData,'bdaas');
+    
     return (
         <div className='h-screen'>
-            <div className="px-4 lg:px-0 mt-12 text-gray-700 max-w-screen-md mx-auto text-lg leading-relaxed prose">
+            <div className="px-4 lg:px-0 mt-12 text-gray-700 max-w-[900px] mx-auto text-lg leading-relaxed prose">
                 <MDXRemote source={compressBase64ToJson(blogData?.getBlog?.content)} />
             </div>
         </div>

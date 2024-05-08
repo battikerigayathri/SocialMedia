@@ -84,7 +84,7 @@ const router =useRouter()
           data?.listBlogs?.docs.map((item: any, index: any) => (
             <div key={index}>
               <BlogListCard
-                imgSrc={item.thumbnail.path}
+                imgSrc={item.thumbnail?.path}
                 heading={item.title}
                 description={item.description}
                 created={item.createdOn}
