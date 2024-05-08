@@ -11,6 +11,7 @@ const typeDefs = `
   type loginResponse{
 msg:String
 token:String
+role: String
 
   }
   type forgetPasswordResponse{

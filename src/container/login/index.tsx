@@ -28,11 +28,12 @@ const Login = () => {
       // alert(JSON.stringify(values, null, 2));
       loginpage(
         `mutation Login($userName: String, $password: String) {
-                login(userName: $userName, password: $password) {
-                  token
-                  msg
-                }
-              }
+          login(userName: $userName, password: $password) {
+            msg
+            token
+            role
+          }
+        }
               `,
         {
           "userName": values.username,
@@ -46,7 +47,9 @@ const Login = () => {
 
   useEffect(() => {
     if (data) {
-      setCookie('tokenkey', data.login.token)
+      setCookie('tokenkey',data.login.token)
+      setCookie('UserRole',data.login.role)
+
       router.push('/admin/dashboard')
     }
     else if(error){
