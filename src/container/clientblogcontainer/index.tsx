@@ -134,7 +134,7 @@ const Clientblogview = () => {
 
   useEffect(() => {
     if (mypinposts?.data) {
-      console.log(data, "postsdata");
+      console.log(data, "pinpostsdata");
     }
     if (mypinposts?.error) {
       toast.error(error?.message);
@@ -231,7 +231,7 @@ const Clientblogview = () => {
                   </text> 
                 </div>
                 <Image
-                  className=" w-full h-[100%]  object-center"
+                  className=" w-full h-[100%]  object-cover"
                   src={mylatestblogs?.data?.listBlogs?.docs[0]?.thumbnail?.path}
                   alt="image"
                   height={1000}
