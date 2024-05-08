@@ -5,8 +5,14 @@ import { deleteCookie, getCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import { log } from "console";
+import CategoryDropdown from "../CategoryDropDown";
+import Dropdown from "../CategoryDropDown";
+import { useLazyQuery } from "@/hook";
+import { serverFetch } from "@/action";
 
 function Header() {
+  const [CategoryData, CategoryResponse] = useLazyQuery(serverFetch);
+
   const [dropdown, setdropdown] = useState(false);
   const [token, setToken] = useState(false);
   const pathName = usePathname();
@@ -16,6 +22,46 @@ function Header() {
   useEffect(() => {
     setToken(getCookie("tokenkey") ? true : false);
   }, []);
+  useEffect(() => {
+    CategoryData(
+      `query ListCategorys($where: whereCategoryInput) {
+        listCategorys(where: $where) {
+          docs {
+            id
+            name
+            subCategory {
+              id
+              name
+              subCategory {
+                id
+                name
+                subCategory {
+                    id
+                    name
+                  }
+              }
+            }
+          }
+        }
+      }`,
+      {
+        where: {
+          parent: {
+            is: null,
+          },
+        },
+      },
+      {
+        cache: "no-store",
+      }
+    );
+  }, []);
+  useEffect(() => {
+    if (CategoryResponse.data) {
+      console.log("List", CategoryResponse.data?.listCategorys?.docs);
+    }
+  }, [CategoryResponse.data, CategoryResponse.error, CategoryResponse.loading]);
+
   return (
     <div className="bg-gray-200">
       <div className=" w-[100%] px-5 bg-gray-200  text-black flex flex-row justify-between items-center py-1">
@@ -28,7 +74,10 @@ function Header() {
           width={200}
           className="w-auto h-[24px]"
         />
-        <div>Categoty</div>
+        <div>
+          Home
+          <CategoryDropdown data={CategoryResponse.data?.listCategorys?.docs} />
+        </div>
         {pathName !== "/" && token ? (
           <div
             className="flex flex-row gap-2 w-[50px] h-[50px] rounded-full border-[1px] border-black"
@@ -69,3 +118,28 @@ function Header() {
 }
 
 export default Header;
+
+export const CategoryDropdata = [
+  {
+    name: "Programming",
+    link: "https://example.com/programming",
+    subCategory: [
+      {
+        name: "Javascript",
+        link: "https://example.com/javascript",
+        subCategory: [
+          { name: "2.7", link: "https://example.com/javascript/2.7" },
+          { name: "3+", link: "https://example.com/javascript/3plus" },
+        ],
+      },
+      {
+        name: "Python",
+        link: "https://example.com/python",
+        subCategory: [
+          { name: "2.7", link: "https://example.com/python/2.7" },
+          { name: "3+", link: "https://example.com/python/3plus" },
+        ],
+      },
+    ],
+  },
+];
