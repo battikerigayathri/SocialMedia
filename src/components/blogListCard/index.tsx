@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -7,7 +6,7 @@ import { FiEdit } from "react-icons/fi";
 import { RiTimer2Line } from "react-icons/ri";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 import { useLazyQuery } from "@/hook";
 import { serverFetch } from "@/action";
 
@@ -17,30 +16,34 @@ const BlogListCard = ({
   description,
   created,
   id,
-  content
+  content,
+  slug,
 }: {
-  imgSrc: string | undefined,
-  heading: string | undefined,
-  description: string | undefined,
-  created: string,
-  id: string | undefined,
-  content?: string | undefined
+  imgSrc: string | undefined;
+  heading: string | undefined;
+  description: string | undefined;
+  created: string;
+  id: string | undefined;
+  content?: string | undefined;
+  slug: string | undefined;
 }) => {
   const [deleteBlog, { data, loading, error }] = useLazyQuery(serverFetch);
 
   const router = useRouter();
 
   const handleBlogDelete = () => {
-    const confirm=window.confirm("are sure to delete.")
-    if(confirm==true){
-    toast.success('Deleted Successfully.')
-    deleteBlog(`mutation DeleteBlog($deleteBlogId: ID!) {
+    const confirm = window.confirm("are sure to delete.");
+    if (confirm == true) {
+      toast.success("Deleted Successfully.");
+      deleteBlog(
+        `mutation DeleteBlog($deleteBlogId: ID!) {
       deleteBlog(id: $deleteBlogId)
-    }`, {
-      deleteBlogId: id,
-    });
-  }
-    
+    }`,
+        {
+          deleteBlogId: id,
+        }
+      );
+    }
   };
 
   useEffect(() => {
@@ -50,8 +53,7 @@ const BlogListCard = ({
       window.location.reload();
     }
     if (error) {
-        // toast.error(error?.message)
-
+      // toast.error(error?.message)
     }
   }, [data, loading, error]);
   return (
@@ -59,10 +61,14 @@ const BlogListCard = ({
       <div className="mx-auto h-[480px] w-80 bg-white shadow-md border border-gray-200 rounded-lg mb-5">
         <div className="">
           <div className="relative ">
-            <Link href="#" className="">
+            <Link href={`/${slug}`} className="">
               <Image
                 className="rounded-t-lg w-80 h-60 object-cover"
-                src={imgSrc ? imgSrc : 'https://assets-global.website-files.com/6324331488eeaaad6ed0be97/63620f99776dc1648a7a5d0a_image-preview.png'}
+                src={
+                  imgSrc
+                    ? imgSrc
+                    : "https://assets-global.website-files.com/6324331488eeaaad6ed0be97/63620f99776dc1648a7a5d0a_image-preview.png"
+                }
                 alt="image"
                 height={1000}
                 width={1000}
@@ -101,15 +107,14 @@ const BlogListCard = ({
               <p className="flex justify-center items-center gap-1">
                 {/* <LiaReadme className="w-5 h-5" /> */}
                 {/* {getBlogReadTime(content ? content : "Hello ** world **")} */}
-
               </p>
             </div>
             <div className="overflow-hidden w-full h-full">
               {/* <Link
                 href={`blog/${id}`}> */}
-                <h5 className="text-gray-900 font-bold text-xl tracking-tight mb-2   overflow-hidden line-clamp-2">
-                  {heading}
-                </h5>
+              <h5 className="text-gray-900 font-bold text-xl tracking-tight mb-2   overflow-hidden line-clamp-2">
+                {heading}
+              </h5>
               {/* </Link> */}
               <p className="font-normal text-gray-700 mb-3 overflow-hidden line-clamp-3">
                 {description}
@@ -122,7 +127,6 @@ const BlogListCard = ({
         </div>
       </div>
       <Toaster />
-
     </div>
   );
 };
