@@ -253,7 +253,7 @@ const Clientblogview = () => {
                     {item?.title}
                   </text>
                   <Image
-                    className=" w-[100%]  h-full object-center hover:scale-105 ease-in duration-300"
+                    className=" w-[100%]  h-full object-cover hover:scale-105 ease-in duration-300"
                     src={item?.thumbnail?.path}
                     alt="image"
                     height={1000}
