@@ -520,7 +520,7 @@ function EditBlog() {
                       {({ field, form: { touched, errors }, meta }: any) => (
                         <div className="flex flex-col gap-2">
                           <label className="font-semibold text-sm   block  ">
-                            pin
+                            Pin
                           </label>
                           <div className="flex flex-row w-[400px] h-[41.6px]">
                             <input
