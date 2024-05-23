@@ -30,7 +30,7 @@ export default {
   Mutation: {
     login: async (
       root: any,
-      { userName, password }: { userName: string; password: string },
+      { userName, password }: { userName: string; password: string, role: string },
       ctx: any
     ) => {
       try {
@@ -62,6 +62,7 @@ export default {
         return {
           msg: "User successfully logged in",
           token: token,
+          role: user.role
         };
       } catch (error: any) {
         throw new GraphQLError(error.message);

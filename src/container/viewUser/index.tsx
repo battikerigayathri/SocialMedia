@@ -67,17 +67,20 @@ function ViewUser() {
         if (updateUserResponse?.data?.updateUser) {
             console.log(updateUserResponse?.data?.updateUser, "UpdateUser")
             toast.success("Updated successfully")
-            router.push('/admin/dashboard/users')
+            setTimeout(()=>{
+                router.push('/admin/dashboard/users')
+            },1000)
         }
         else if(updateUserResponse?.error){
             toast.error("Something wnt wrong")
-
         }
     }, [updateUserResponse])
     useEffect(() => {
         if (deleteUserResponse?.data) {
-            toast.success("Deleted successfully")
-            router.push('/admin/dashboard/users')
+            
+            setTimeout(()=>{
+                router.push('/admin/dashboard/users')
+            },2000)
         }
         else if(deleteUserResponse?.error){
             toast.error("Something wnt wrong")
@@ -85,14 +88,21 @@ function ViewUser() {
         }
     }, [deleteUserResponse])
     const DeleteUser = () => {
-        deleteUserfun(`
-mutation DeleteUser($deleteUserId: ID!) {
-    deleteUser(id: $deleteUserId)
-  }`, {
-            "deleteUserId": currentPath.get("id")
-        }, {
-            cache: 'no-store',
-        })
+        const confirm=window.confirm("are sure to delete.")
+        if(confirm==true){
+        toast.success('Deleted Successfully.')
+       
+            deleteUserfun(`
+            mutation DeleteUser($deleteUserId: ID!) {
+                deleteUser(id: $deleteUserId)
+              }`, {
+                        "deleteUserId": currentPath.get("id")
+                    }, {
+                        cache: 'no-store',
+                    })
+        
+      
+    }
     }
 
     return (

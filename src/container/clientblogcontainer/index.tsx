@@ -134,7 +134,7 @@ const Clientblogview = () => {
 
   useEffect(() => {
     if (mypinposts?.data) {
-      console.log(data, "postsdata");
+      console.log(data, "pinpostsdata");
     }
     if (mypinposts?.error) {
       toast.error(error?.message);
@@ -340,7 +340,7 @@ const Clientblogview = () => {
                       ? formatDate({ createdon: item?.createdOn })
                       : "no date"} */}
                   {/* </text> */}
-                </div>
+                </div> 
               </Link>
             );
           })}

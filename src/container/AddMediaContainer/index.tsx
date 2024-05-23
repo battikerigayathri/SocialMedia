@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { ClipLoader } from 'react-spinners';
 import * as Yup from 'yup';
-
+import toast, { Toaster } from 'react-hot-toast';
 const AddMediaContainer = () => {
     const [loading,setLoading]=useState(false)
     const router = useRouter();
@@ -52,13 +52,15 @@ const AddMediaContainer = () => {
                 const responseData = await response.json();
                 if(response.status){
                 setLoading(false)
-
+                toast.success('Upload successful');
+                setTimeout(() => {
                     router.push('/admin/dashboard/media');
+                  }, 2000);
                 }
 
             } catch (error) {
                 setLoading(false)
-
+                // toast.error(error.message);
                 console.error('Error:', error);
             }
         }
@@ -110,8 +112,7 @@ const AddMediaContainer = () => {
                 </div>
                 <div className="mt-5 pl-5 pr-5 flex flex-row gap-5">
                     <button type="submit" className="transition duration-500 w-[200px] bg-blue-950 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white py-2.5 px-8 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
-                    {loading ? (
-                                                <div
+                    {loading ? (    <div
                                                     style={{
                                                         display: "flex",
                                                         justifyContent: "center",
@@ -131,6 +132,7 @@ const AddMediaContainer = () => {
 
                 </div>
             </form>
+            <Toaster/>
         </div>
     )
 }

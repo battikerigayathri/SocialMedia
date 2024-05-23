@@ -6,7 +6,7 @@ import { ClipLoader } from 'react-spinners';
 import { useLazyQuery } from '@/hook';
 import { serverFetch } from '@/action';
 import { useRouter } from 'next/navigation';
-
+import toast, { Toaster } from 'react-hot-toast';
 function CreatUser() {
     const [loading, setLoading] = useState(false)
     const [craeteUserfun, craeteUserResponse] = useLazyQuery(serverFetch)
@@ -33,7 +33,14 @@ function CreatUser() {
     useEffect(() => {
         if (craeteUserResponse?.data) {
             console.log(craeteUserResponse?.data)
-            router.push("/admin/dashboard/users")
+            toast.success('successfully User created')
+            setTimeout(()=>{
+                router.push("/admin/dashboard/users")
+            },1000)
+
+        }
+        if(craeteUserResponse?.error){
+            toast.error(craeteUserResponse.error.message)
         }
     }, [craeteUserResponse])
 
@@ -277,6 +284,7 @@ function CreatUser() {
                     </Formik>
                 </div>
             </div>
+            <Toaster/>
         </div>
 
 
