@@ -3,7 +3,7 @@ import { getCookie } from 'cookies-next';
 import { usePathname } from 'next/navigation'
 import React, { useEffect } from 'react'
 
-function SideBar() {
+function    SideBar() {
 
     useEffect(()=>{
 
