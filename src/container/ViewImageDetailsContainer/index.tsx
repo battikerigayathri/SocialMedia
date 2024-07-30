@@ -6,7 +6,7 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { BeatLoader, ClipLoader } from 'react-spinners'
 import * as Yup from 'yup';
-
+import toast, { Toaster } from 'react-hot-toast';
 const ViewImageDetailsContainer = () => {
     const [getAssetData, { data, loading, error }] = useLazyQuery(serverFetch);
     const [updateAsset, updateAssetResponse] = useLazyQuery(serverFetch);
@@ -96,7 +96,10 @@ const ViewImageDetailsContainer = () => {
 
     useEffect(() => {
         if (updateAssetResponse.data) {
-            router.replace('/admin/dashboard/media');
+            toast.success('successfully updated');
+            setTimeout(()=>{
+                router.replace('/admin/dashboard/media');
+            },1000)
         }
         if (updateAssetResponse.error) {
             console.log("error : ", updateAssetResponse.error);
@@ -113,7 +116,11 @@ const ViewImageDetailsContainer = () => {
 
             if (response.ok) {
                 setDeleteLoader(false)
-                router.push('/admin/dashboard/media');
+                alert('Are you sure to Delete.')
+                setTimeout(()=>{
+                    router.push('/admin/dashboard/media');
+                },1000)
+               
             }
 
         } catch (error: any) {
@@ -149,6 +156,7 @@ const ViewImageDetailsContainer = () => {
                     "description": values.description,
                 }
             },
+            
             {
                 cache: "no-store"
             }
@@ -253,6 +261,7 @@ const ViewImageDetailsContainer = () => {
                     </div>
                 </form>
             }
+            <Toaster/>
         </div>
     )
 }
