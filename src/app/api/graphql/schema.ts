@@ -23,6 +23,7 @@ email:String
 }
 type verifyResponse{
   msg:String
+  id:String
 }
 `;
 export default typeDefs;

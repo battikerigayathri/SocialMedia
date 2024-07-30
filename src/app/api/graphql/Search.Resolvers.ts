@@ -68,24 +68,57 @@ export default {
       }
     },
 
+    // forgetPassword: async (
+    //   root: any,
+    //   { email }: { email: string },
+    //   ctx: any
+    // ) => {
+    //   try {
+    //     const UserSchema = mercury.db.User;
+    //     const user = await UserSchema.mongoModel.findOne({ email });
+    //     //   console.log(user,"forgetPassword");
+
+    //     if (!user) {
+    //       throw new Error("Invalid email");
+    //     }
+    //     const otp = generateVerificationCode();
+    //     await RedisClient.set(email, otp);
+    //     sendVerificationEmail(email, otp + "");
+    //     return {
+    //       msg: "Otp has been sent to your email",
+    //       otp: otp,
+    //       email: email,
+    //     };
+    //   } catch (error: any) {
+    //     throw new GraphQLError(error.message);
+    //   }
+    // },
     forgetPassword: async (
       root: any,
       { email }: { email: string },
       ctx: any
     ) => {
       try {
-        const UserSchema = mercury.db.User;
-        const user = await UserSchema.mongoModel.findOne({ email });
-        //   console.log(user,"forgetPassword");
-
-        if (!user) {
-          throw new Error("Invalid email");
-        }
+        const UserSchema = mercury.db.User.mongoModel;
+        const userData = await UserSchema.findOne({ email: email });
+    
+        if (!userData) throw new Error("Invalid Email");
+    
         const otp = generateVerificationCode();
-        await RedisClient.set(email, otp);
-        sendVerificationEmail(email, otp + "");
+        const otpExpiry = new Date();
+        otpExpiry.setMinutes(otpExpiry.getMinutes() + 10); 
+    
+       
+        await UserSchema.findOneAndUpdate(
+          { email: email },
+          { otp: otp, otpExpiry: otpExpiry },
+          { new: true }
+        );
+    
+        sendVerificationEmail(email, otp+"");
+    
         return {
-          msg: "Otp has been sent to your email",
+          msg: "Otp has been sent successfully",
           otp: otp,
           email: email,
         };
@@ -93,24 +126,69 @@ export default {
         throw new GraphQLError(error.message);
       }
     },
-    verifyOtp: async (
+   
+    // verifyOtp: async (
+    //   root: any,
+    //   { email, otp }: { email: string; otp: string },
+    //   ctx: any
+    // ) => {
+    //   try {
+    //     const storedOtp = await RedisClient.get(email);
+    //     //  console.log(storedOtp, "stored");
+    //     if (storedOtp !== otp.toString()) {
+    //       throw new Error("Invalid OTP");
+    //     }
+    //     return {
+    //       msg: "Otp verified Successfully",
+    //     };
+    //   } catch (error: any) {
+    //     throw new Error(error.message);
+    //   }
+    // },
+    verifyOtp : async (
       root: any,
       { email, otp }: { email: string; otp: string },
       ctx: any
     ) => {
       try {
-        const storedOtp = await RedisClient.get(email);
-        //  console.log(storedOtp, "stored");
-        if (storedOtp !== otp.toString()) {
-          throw new Error("Invalid OTP");
+        const UserSchema = mercury.db.User.mongoModel;
+            const userData = await UserSchema.findOne({ email: email });
+        if (!userData) throw new Error("User not Found");
+            const { otp: storedOtp, otpExpiry } = userData;
+        if (!storedOtp || !otpExpiry) {
+          throw new Error("OTP has expired. Please click on Resend OTP");
         }
+        console.log(otp);
+        
+                const currentTime = new Date();
+        if (currentTime > otpExpiry) {
+          throw new Error("OTP has expired. Please click on Resend OTP");
+        }
+        if (storedOtp !== otp) {
+          throw new Error("Invalid OTP!");
+        }
+        const user = await UserSchema.findOneAndUpdate(
+          { email },
+          { isVerified: true, otp: otp, otpExpiry: otpExpiry },
+          { new: true }
+        );
+    
+        if (!user) {
+          return {
+            status: 400,
+            msg: "User not found",
+          };
+        }
+    
         return {
-          msg: "Otp verified Successfully",
+          msg: "User is Verified Successfully",
+          id: user.id,
         };
       } catch (error: any) {
-        throw new Error(error.message);
+        throw new GraphQLError(error.message);
       }
     },
+    
     resetPassword: async (
       root: any,
       { email, newPassword }: { email: string; newPassword: string },

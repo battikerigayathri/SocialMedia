@@ -33,5 +33,13 @@ export const User = mercury.createModel("User", {
     enum: ["ACTIVE", "IN_ACTIVE"],
     default: "IN_ACTIVE",
   },
+  otpExpiry: {
+    type: "date",
+    required: false
+  },
+  otp:{
+    type:"string",
+    require:true
+  }
   
 });
