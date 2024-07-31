@@ -16,8 +16,8 @@ const getTransporter = () => {
     port: 465,
     secure: true,
     auth: {
-      user: "prashanthberi00@gmail.com",
-      pass: "atbkmetroanqoisf",
+      user: "shashanksonwane305@gmail.com",
+      pass: "jfhucooflemoxuya",
     },
   });
 };
@@ -223,7 +223,7 @@ async function sendVerificationEmail(email:string, otp:string) {
 
   // Send an email with a link that includes the verification token
   const mailOptions = {
-    from: "prashanthberi00@gmail.com",
+    from: "shashanksonwane305@gmail.com",
     to: email,
     subject: "Email Verification",
     text: `Click the following link to verify your email: ${otp}`,
