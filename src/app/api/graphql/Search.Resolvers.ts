@@ -226,7 +226,7 @@ async function sendVerificationEmail(email:string, otp:string) {
     from: "prashanthberi00@gmail.com",
     to: email,
     subject: "Email Verification",
-    text: `Click the following link to verify your email: http://localhost:8005/verify/${otp}`,
+    text: `Click the following link to verify your email: ${otp}`,
   };
 
   // console.log("trasnporter", transporter)
