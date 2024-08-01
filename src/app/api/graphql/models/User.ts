@@ -3,10 +3,12 @@ export const User = mercury.createModel("User", {
   firstName: {
     type: "string",
     require: true,
+    unique:true
   },
   lastName: {
     type: "string",
     required: true,
+    unique:true
   },
   userName: {
     type: "string",
