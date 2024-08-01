@@ -42,6 +42,10 @@ export const User = mercury.createModel("User", {
   otp:{
     type:"string",
     require:true
+  },
+  profile : {
+    type : "relationship",
+    ref : "Profile"
   }
   
 });
