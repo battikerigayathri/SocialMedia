@@ -13,18 +13,15 @@ mercury.hook.before("CREATE_USER_RECORD", async function (this: any) {
       ]
     });
     for (const user of existingUsers) {
-      if (user.userName === userName) {
-        throw new Error(`User with the username "${userName}" already exists.`);
-      }
-      if (user.firstName === firstName) {
-        throw new Error(`User with the first name "${firstName}" already exists.`);
-      }
-      if (user.lastName === lastName) {
-        throw new Error(`User with the last name "${lastName}" already exists.`);
-      }
-      if (user.email === email) {
-        throw new Error(`User with the email "${email}" already exists.`);
-      }
+        if (user.userName === userName) {
+            throw new Error(`User with the username "${userName}" already exists.`);
+          } else if (user.firstName === firstName) {
+            throw new Error(`User with the first name "${firstName}" already exists.`);
+          } else if (user.lastName === lastName) {
+            throw new Error(`User with the last name "${lastName}" already exists.`);
+          } else if (user.email === email) {
+            throw new Error(`User with the email "${email}" already exists.`);
+          }
     }
     
   } catch (error: any) {
