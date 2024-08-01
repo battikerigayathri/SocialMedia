@@ -62,7 +62,8 @@ export default {
         return {
           msg: "User successfully logged in",
           token: token,
-          role: user.role
+          role: user.role,
+          user:user.id
         };
       } catch (error: any) {
         throw new GraphQLError(error.message);
