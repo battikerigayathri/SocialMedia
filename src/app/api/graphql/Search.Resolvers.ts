@@ -103,14 +103,11 @@ export default {
       try {
         const UserSchema = mercury.db.User.mongoModel;
         const userData = await UserSchema.findOne({ email: email });
-    
         if (!userData) throw new Error("Invalid Email");
-    
         const otp = generateVerificationCode();
         const otpExpiry = new Date();
         otpExpiry.setMinutes(otpExpiry.getMinutes() + 10); 
     
-       
         await UserSchema.findOneAndUpdate(
           { email: email },
           { otp: otp, otpExpiry: otpExpiry },
@@ -213,6 +210,38 @@ export default {
         };
       } catch (error: any) {
         throw new GraphQLError(error.message);
+      }
+    },
+    setNewPassword: async (
+      root: any,
+      { email, password,previousPassword}: { email: string; password: string ,previousPassword:string},
+      ctx: any
+    ) => {
+      try {
+        let userSchema = mercury.db.User;
+        const userData = await userSchema.mongoModel.findOne({ email });
+        if (!userData) throw new Error("Invalid Email");
+        const isPreviousPasswordValid = await userData.verifyPassword(previousPassword);
+        if (!isPreviousPasswordValid) {
+          throw new GraphQLError("Invalid previous password");
+        }
+        const isSameAsNewPassword = await userData.verifyPassword(password);
+        if (isSameAsNewPassword) {
+          throw new GraphQLError("New password is similar to previous password!!");
+        }    
+        // Update the user's password
+        await mercury.db.User.update(
+          userData.id,
+          { password, isVerified: false },
+          { profile: ctx.user.profile }
+        );
+        
+        return {
+          id: userData.id,
+          msg: "Password Changed Successfully",
+        };
+      } catch (error: any) {
+        throw new GraphQLError(error.message || error);
       }
     },
   },

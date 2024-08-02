@@ -7,6 +7,7 @@ const typeDefs = `
     forgetPassword(email:String):forgetPasswordResponse
     verifyOtp(email:String,otp:String):verifyResponse
      resetPassword(email: String,  newPassword: String): ResetPasswordResponse
+     setNewPassword(email:String,password:String,previousPassword:String):newPasswordResponse
   }
   type loginResponse{
 msg:String
@@ -15,6 +16,10 @@ role: String
 user:String
 
   }
+type newPasswordResponse{
+id:String,
+msg:String,
+}
   type forgetPasswordResponse{
    msg:String
 otp:String
