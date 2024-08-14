@@ -1,13 +1,18 @@
 import mercury from "@mercury-js/core";
 export const Profile = mercury.createModel("Profile", {
-  firstName: {
+  name: {
     type: "string",
-    require: true,
   },
-  lastName: {
+  mediaType: {
+    type: "enum",
+    enumType: "string",
+    enum: ["Profile"],
+    default: "Profile",
+  },
+  type: {
     type: "string",
-    required: true,
   },
-  
-  
+  path: {
+    type: "string",
+  },
 });
