@@ -77,6 +77,7 @@ const page = async ({ params }: { params: { blogSlug: string } }) => {
     );
 
     console.log(blogData,'bdaas');
+    console.log(blogData?.getBlog?.content,"content")
     
     return (
         <div className='h-screen'>

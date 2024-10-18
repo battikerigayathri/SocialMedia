@@ -1,49 +1,17 @@
 import mercury from "@mercury-js/core";
 export const User = mercury.createModel("User", {
-  firstName: {
+  name: {
     type: "string",
-    require: true,
   },
-  lastName: {
+  avatar: {
     type: "string",
-    required: true
   },
-  userName: {
+  surname: {
     type: "string",
-    required: true,
-    unique: true,
-  },
-  email: {
-    type: "string",
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: "string",
-    bcrypt: true,
   },
   role: {
     type: "enum",
     enumType: "string",
-    enum: ["ADMIN", "USER", "ANONYMOUS"],
+    enum: ["ADMIN", "USER"],
   },
-  status: {
-    type: "enum",
-    enumType: "string",
-    enum: ["ACTIVE", "IN_ACTIVE"],
-    default: "IN_ACTIVE",
-  },
-  otpExpiry: {
-    type: "date",
-    required: false
-  },
-  otp:{
-    type:"string",
-    require:true
-  },
-  profile : {
-    type : "relationship",
-    ref : "Profile"
-  }
-  
 });

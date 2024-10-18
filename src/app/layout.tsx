@@ -20,7 +20,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <div className="flex flex-col">
           
-          <Header />
+         
           
       
           {children}

@@ -7,11 +7,12 @@ import React, { useEffect, useState } from 'react'
 import { BeatLoader, ClipLoader } from 'react-spinners'
 import * as Yup from 'yup';
 import toast, { Toaster } from 'react-hot-toast';
+import SuccessModal from '@/components/modal/SuccessfullModal'
 const ViewImageDetailsContainer = () => {
     const [getAssetData, { data, loading, error }] = useLazyQuery(serverFetch);
     const [updateAsset, updateAssetResponse] = useLazyQuery(serverFetch);
     const[deleteLoader,setDeleteLoader]=useState(false)
-
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const { assetId } = useParams();
     const edit = useSearchParams().get('edit') === 'true';
     const [initialValues, setInitialValues] = useState({
@@ -96,7 +97,8 @@ const ViewImageDetailsContainer = () => {
 
     useEffect(() => {
         if (updateAssetResponse.data) {
-            toast.success('successfully updated');
+            setIsSuccessModalOpen(true);
+            // toast.success('successfully updated');
             setTimeout(()=>{
                 router.replace('/admin/dashboard/media');
             },1000)
@@ -164,7 +166,7 @@ const ViewImageDetailsContainer = () => {
     }
 
     return (
-        <div className='flex justify-start flex-col gap-2 items-center rounded-lg w-full shadow-lg py-5 h-[calc(100vh-80px)] overflow-y-auto'>
+        <div className='flex justify-start flex-col gap-2 items-center rounded-lg w-full shadow-lg py-5 h-[calc(100vh-50px)] mt-14'>
             <div className='w-full py-3 bg-black uppercase text-white px-8 rounded-t-lg text-base'>
                 {edit ? "Edit" : "View"} Media
             </div>
@@ -262,6 +264,10 @@ const ViewImageDetailsContainer = () => {
                 </form>
             }
             <Toaster/>
+            <SuccessModal
+        isOpen={isSuccessModalOpen}
+        onClose={() => setIsSuccessModalOpen(false)}
+      />
         </div>
     )
 }

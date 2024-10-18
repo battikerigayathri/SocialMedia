@@ -138,7 +138,7 @@ const Singleviewcat = () => {
     }
 
     return (
-        <div className='flex justify-start flex-col gap-2 items-center rounded-lg w-full shadow-lg py-5 h-[calc(100vh-80px)] overflow-y-auto'>
+        <div className='flex justify-start flex-col gap-2 items-center rounded-lg w-full shadow-lg py-5 h-[calc(100vh-80px)] overflow-y-auto mt-16'>
             <div className='w-full py-3 bg-black uppercase text-white px-8 rounded-t-lg text-base'>
                 {edit ? "Edit" : "View"} Category
             </div>

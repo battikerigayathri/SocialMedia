@@ -64,7 +64,7 @@ function CategoryContainer() {
 
   return (
     <div className="flex flex-col w-[calc(100vw-260px)]">
-      <div className="flex flex-row justify-between p-3 rounded-md bg-gray-100 items-center">
+      <div className="flex flex-row justify-between p-3 rounded-md bg-gray-100 items-center mt-20">
         <h4 className="text-center font-bold text-[20px]">Category</h4>
         <Link href={`/admin/dashboard/category/nav-tree`}
           className="">

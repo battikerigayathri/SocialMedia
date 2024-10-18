@@ -1,6 +1,8 @@
-export {Asset} from "./Assets"
-export {Blog} from "./Blog"
-export {Category} from "./Category"
 export {User} from "./User"
-export { Setting } from "./Setting";
-export {Profile} from "./Profile"
+export {Block} from "./Block"
+export {Comment} from "./Comment"
+export {FollowRequest} from "./FollowRequest"
+export {Follower} from "./Follower"
+export {Like} from "./Like"
+export {Post} from "./Post"
+export {Story} from "./Story"

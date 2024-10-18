@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import SideBar from "@/components/sideBar";
 import AuthCheck from "@/container/authCheck";
+import Header from "@/components/header";
+import Footer from "@/components/Footer/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,13 +19,19 @@ export default function RootLayout({
 }>) {
 
     return (
+        <div>
+        <div><Header /></div>
 
         <div className="flex flex-row ">
+             
             <AuthCheck />
             <SideBar />
+            
             <div className="p-5 w-full">
                 {children}
             </div>
+        </div>
+        <Footer />
         </div>
     );
 }
