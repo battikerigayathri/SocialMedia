@@ -1,7 +1,7 @@
 
-import BlogContainer from '@/container/blogContainer'
-import Clientblogview from '@/container/clientblogcontainer'
-import Blogs from '@/container/clientblogcontainer/blogs'
+import BlogContainer from '../container/blogContainer'
+import Clientblogview from '../container/clientblogcontainer'
+import Blogs from '../container/clientblogcontainer/blogs'
 import React from 'react'
 
 const page = () => {

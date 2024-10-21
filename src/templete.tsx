@@ -1,5 +1,5 @@
-import Header from "@/components/header";
-import SideBar from "@/components/sideBar";
+import Header from "./components/header";
+import SideBar from "./components/sideBar";
 import { ReactNode } from "react";
 
 export default function MainTemplete({children}:{children:ReactNode}) {
